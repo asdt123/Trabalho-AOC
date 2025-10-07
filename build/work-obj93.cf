@@ -1,0 +1,15 @@
+v 4
+file "/var/home/arthursdt/Documentos/pessoal/aoc/" "./testbench/tb_myfadd.vhd" "e092b9f275f449176ec6fec87cef3231bf740a69" "20251007205202.785":
+  entity tb_myfadd at 1( 0) + 0 on 105;
+  architecture sim of tb_myfadd at 8( 106) + 0 on 106;
+file "/var/home/arthursdt/Documentos/pessoal/aoc/" "./entidades/myfadd.vhd" "a826e739dab04fae8936e120d994b9ee4dc7ff75" "20251007205202.238":
+  entity rightshiftersticky24_by_max_26_f400_uid4 at 14( 560) + 0 on 95;
+  architecture arch of rightshiftersticky24_by_max_26_f400_uid4 at 30( 994) + 0 on 96;
+  entity intadder_27_f400_uid6 at 91( 3726) + 0 on 97;
+  architecture arch of intadder_27_f400_uid6 at 107( 4138) + 0 on 98;
+  entity normalizer_z_28_28_28_f400_uid8 at 148( 5518) + 0 on 99;
+  architecture arch of normalizer_z_28_28_28_f400_uid8 at 163( 5913) + 0 on 100;
+  entity intadder_34_f400_uid11 at 222( 8376) + 0 on 101;
+  architecture arch of intadder_34_f400_uid11 at 238( 8789) + 0 on 102;
+  entity myfadd at 272( 9897) + 0 on 103;
+  architecture arch of myfadd at 287( 10275) + 0 on 104;
