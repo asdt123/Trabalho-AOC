@@ -1,0 +1,616 @@
+$date
+  Sat Nov  1 20:10:18 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module std_logic_arith $end
+$upscope $end
+$scope module std_logic_unsigned $end
+$upscope $end
+$scope module textio $end
+$upscope $end
+$scope module tb_alu $end
+$var reg 1 ! clk $end
+$var reg 4 " op_code[3:0] $end
+$var reg 32 # a[31:0] $end
+$var reg 32 $ b[31:0] $end
+$var reg 32 % result[31:0] $end
+$var reg 1 & done $end
+$scope module uut $end
+$var reg 1 ' clk $end
+$var reg 4 ( op_code[3:0] $end
+$var reg 32 ) a[31:0] $end
+$var reg 32 * b[31:0] $end
+$var reg 32 + result[31:0] $end
+$var reg 1 , done $end
+$var reg 32 - r_int[31:0] $end
+$var reg 32 . fp_result[31:0] $end
+$var reg 32 / y_input[31:0] $end
+$var reg 1 0 start_op $end
+$var reg 8 1 done_shift[7:0] $end
+$var integer 32 2 op_latency $end
+$scope module fp_add $end
+$var reg 32 3 x[31:0] $end
+$var reg 32 4 y[31:0] $end
+$var reg 32 5 r[31:0] $end
+$var reg 31 6 expfracx[30:0] $end
+$var reg 31 7 expfracy[30:0] $end
+$var reg 9 8 expxmexpy[8:0] $end
+$var reg 9 9 expymexpx[8:0] $end
+$var reg 1 : swap $end
+$var reg 32 ; newx[31:0] $end
+$var reg 32 < newy[31:0] $end
+$var reg 9 = expdiff[8:0] $end
+$var reg 8 > expnewx[7:0] $end
+$var reg 8 ? expnewy[7:0] $end
+$var reg 1 @ signnewx $end
+$var reg 1 A signnewy $end
+$var reg 1 B effsub $end
+$var reg 1 C xexpfieldzero $end
+$var reg 1 D yexpfieldzero $end
+$var reg 1 E xexpfieldallones $end
+$var reg 1 F yexpfieldallones $end
+$var reg 1 G xsigfieldzero $end
+$var reg 1 H ysigfieldzero $end
+$var reg 1 I xisnan $end
+$var reg 1 J yisnan $end
+$var reg 1 K xisinfinity $end
+$var reg 1 L yisinfinity $end
+$var reg 1 M xiszero $end
+$var reg 1 N yiszero $end
+$var reg 1 O bothsubnormals $end
+$var reg 1 P resultisnan $end
+$var reg 24 Q significandnewx[23:0] $end
+$var reg 24 R significandnewy[23:0] $end
+$var reg 1 S allshiftedout $end
+$var reg 5 T rightshiftvalue[4:0] $end
+$var reg 1 U shiftcorrection $end
+$var reg 5 V finalrightshiftvalue[4:0] $end
+$var reg 26 W significandy00[25:0] $end
+$var reg 26 X shiftedsignificandy[25:0] $end
+$var reg 1 Y stickylow $end
+$var reg 27 Z summandy[26:0] $end
+$var reg 27 [ summandx[26:0] $end
+$var reg 1 \ carryin $end
+$var reg 27 ] significandz[26:0] $end
+$var reg 1 ^ z1 $end
+$var reg 1 _ z0 $end
+$var reg 26 ` lzczinput[25:0] $end
+$var reg 5 a lzc[4:0] $end
+$var reg 5 b leftshiftval[4:0] $end
+$var reg 53 c normalizedsignificand[52:0] $end
+$var reg 23 d significandpreround[22:0] $end
+$var reg 1 e lsb $end
+$var reg 1 f roundbit $end
+$var reg 1 g stickybit $end
+$var reg 8 h deltaexp[7:0] $end
+$var reg 1 i fullcancellation $end
+$var reg 8 j exppreround[7:0] $end
+$var reg 31 k expsigpreround[30:0] $end
+$var reg 1 l roundupbit $end
+$var reg 31 m expsigr[30:0] $end
+$var reg 1 n resultiszero $end
+$var reg 1 o resultisinf $end
+$var reg 31 p constinf[30:0] $end
+$var reg 31 q constnan[30:0] $end
+$var reg 31 r expsigr2[30:0] $end
+$var reg 1 s signr $end
+$var reg 32 t computedr[31:0] $end
+$scope module rightshiftercomponent $end
+$var reg 26 u x[25:0] $end
+$var reg 5 v s[4:0] $end
+$var reg 26 w r[25:0] $end
+$var reg 1 x sticky $end
+$var reg 5 y ps[4:0] $end
+$var reg 26 z xpadded[25:0] $end
+$var reg 26 { level5[25:0] $end
+$var reg 1 | stk4 $end
+$var reg 26 } level4[25:0] $end
+$var reg 1 !" stk3 $end
+$var reg 26 "" level3[25:0] $end
+$var reg 1 #" stk2 $end
+$var reg 26 $" level2[25:0] $end
+$var reg 1 %" stk1 $end
+$var reg 26 &" level1[25:0] $end
+$var reg 1 '" stk0 $end
+$var reg 26 (" level0[25:0] $end
+$var reg 1 )" stk $end
+$upscope $end
+$scope module fracadder $end
+$var reg 27 *" x[26:0] $end
+$var reg 27 +" y[26:0] $end
+$var reg 1 ," cin $end
+$var reg 27 -" r[26:0] $end
+$var reg 27 ." rtmp[26:0] $end
+$upscope $end
+$scope module ieeefpadd_8_23_comb_uid2leadingzerocounter $end
+$var reg 26 /" i[25:0] $end
+$var reg 5 0" o[4:0] $end
+$var reg 31 1" level5[30:0] $end
+$var reg 1 2" digit4 $end
+$var reg 15 3" level4[14:0] $end
+$var reg 1 4" digit3 $end
+$var reg 7 5" level3[6:0] $end
+$var reg 1 6" digit2 $end
+$var reg 3 7" level2[2:0] $end
+$var reg 2 8" lowbits[1:0] $end
+$var reg 3 9" outhighbits[2:0] $end
+$upscope $end
+$scope module leftshiftercomponent $end
+$var reg 27 :" x[26:0] $end
+$var reg 5 ;" s[4:0] $end
+$var reg 53 <" r[52:0] $end
+$var reg 5 =" ps[4:0] $end
+$var reg 27 >" level0[26:0] $end
+$var reg 28 ?" level1[27:0] $end
+$var reg 30 @" level2[29:0] $end
+$var reg 34 A" level3[33:0] $end
+$var reg 42 B" level4[41:0] $end
+$var reg 58 C" level5[57:0] $end
+$upscope $end
+$scope module roundingadder $end
+$var reg 31 D" x[30:0] $end
+$var reg 31 E" y[30:0] $end
+$var reg 1 F" cin $end
+$var reg 31 G" r[30:0] $end
+$var reg 31 H" rtmp[30:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+b0000 "
+b00000000000000000000000000001010 #
+b00000000000000000000000000000011 $
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU %
+U&
+0'
+b0000 (
+b00000000000000000000000000001010 )
+b00000000000000000000000000000011 *
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU +
+U,
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX .
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU /
+00
+b00000000 1
+b0 2
+b00000000000000000000000000001010 3
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 4
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 5
+b0000000000000000000000000001010 6
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 7
+bXXXXXXXXX 8
+bXXXXXXXXX 9
+1:
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ;
+b00000000000000000000000000001010 <
+bXXXXXXXXX =
+bUUUUUUUU >
+b00000000 ?
+U@
+0A
+UB
+0C
+1D
+0E
+0F
+0G
+0H
+0I
+0J
+0K
+0L
+0M
+0N
+0O
+0P
+b1UUUUUUUUUUUUUUUUUUUUUUU Q
+b000000000000000000001010 R
+0S
+bXXXXX T
+1U
+bXXXXX V
+b00000000000000000000101000 W
+b00000000000000000000000000 X
+0Y
+bUUUUUUUUUUUUUUUUUUUUUUUUUUU Z
+b01UUUUUUUUUUUUUUUUUUUUUUU00 [
+U\
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX ]
+X^
+X_
+bXXXXXXXXXXXXXXXXXXXXXXXXXX `
+b00000 a
+b00001 b
+b0000000000000000000000000XXXXXXXXXXXXXXXXXXXXXXXXXXX0 c
+bXXXXXXXXXXXXXXXXXXXXXXX d
+Xe
+Xf
+Xg
+bUUUUUUUU h
+0i
+bXXXXXXXX j
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX k
+0l
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX m
+0n
+0o
+b1111111100000000000000000000000 p
+b1111111111111111111111111111111 q
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX r
+Us
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX t
+b00000000000000000000101000 u
+bXXXXX v
+b00000000000000000000000000 w
+0x
+bXXXXX y
+b00000000000000000000101000 z
+b00000000000000000000101000 {
+0|
+b00000000000000000000000000 }
+0!"
+b00000000000000000000000000 ""
+0#"
+b00000000000000000000000000 $"
+0%"
+b00000000000000000000000000 &"
+0'"
+b00000000000000000000000000 ("
+0)"
+b01UUUUUUUUUUUUUUUUUUUUUUU00 *"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUU +"
+U,"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX -"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX ."
+bXXXXXXXXXXXXXXXXXXXXXXXXXX /"
+b00000 0"
+bXXXXXXXXXXXXXXXXXXXXXXXXXX11111 1"
+02"
+bXXXXXXXXXXXXXXX 3"
+04"
+bXXXXXXX 5"
+06"
+bXXX 7"
+b00 8"
+b000 9"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX :"
+b00001 ;"
+b0000000000000000000000000XXXXXXXXXXXXXXXXXXXXXXXXXXX0 <"
+b00001 ="
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX >"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXX0 ?"
+b00XXXXXXXXXXXXXXXXXXXXXXXXXXX0 @"
+b000000XXXXXXXXXXXXXXXXXXXXXXXXXXX0 A"
+b00000000000000XXXXXXXXXXXXXXXXXXXXXXXXXXX0 B"
+b000000000000000000000000000000XXXXXXXXXXXXXXXXXXXXXXXXXXX0 C"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX D"
+b0000000000000000000000000000000 E"
+0F"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX G"
+bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX H"
+#10000000
+1!
+0&
+1'
+0,
+b00000000000000000000000000001101 -
+10
+#20000000
+0!
+0'
+#30000000
+1!
+b00000000000000000000000000001101 %
+1'
+b00000000000000000000000000001101 +
+b00000001 1
+#40000000
+0!
+b0001 "
+0'
+b0001 (
+#50000000
+1!
+1&
+1'
+1,
+00
+b00000000 1
+#60000000
+0!
+0'
+#70000000
+1!
+0&
+1'
+0,
+b00000000000000000000000000000111 -
+10
+#80000000
+0!
+b0100 "
+b01000001001000000000000000000000 #
+b01000000101000000000000000000000 $
+0'
+b0100 (
+b01000001001000000000000000000000 )
+b01000000101000000000000000000000 *
+b01000001001000000000000000000000 3
+b1000001001000000000000000000000 6
+b01000001001000000000000000000000 <
+b10000010 ?
+0D
+b101000000000000000000000 R
+0U
+b10100000000000000000000000 W
+b10100000000000000000000000 u
+b10100000000000000000000000 z
+b10100000000000000000000000 {
+b00000000000000001010000000 }
+b00000000000000000000000010 ""
+#90000000
+1!
+b00000000000000000000000000000111 %
+1'
+b00000000000000000000000000000111 +
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -
+b00000001 1
+#100000000
+0!
+0'
+#110000000
+1!
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX %
+1'
+bUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX +
+b00000011 1
+#120000000
+0!
+0'
+#130000000
+1!
+1'
+b00000111 1
+#140000000
+0!
+0'
+#150000000
+1!
+1'
+b00001111 1
+#160000000
+0!
+0'
+#170000000
+1!
+1'
+b00011111 1
+#180000000
+0!
+b0101 "
+0'
+b0101 (
+#190000000
+1!
+1'
+b00111111 1
+#200000000
+0!
+0'
+#210000000
+1!
+1'
+b01111111 1
+#220000000
+0!
+0'
+#230000000
+1!
+1'
+b11111111 1
+#240000000
+0!
+0'
+#250000000
+1!
+1&
+1'
+1,
+00
+b00000000 1
+#260000000
+0!
+0'
+#270000000
+1!
+0&
+1'
+0,
+b01000000101000000000000000000000 .
+b11000000101000000000000000000000 /
+10
+b11000000101000000000000000000000 4
+b01000000101000000000000000000000 5
+b1000000101000000000000000000000 7
+b000000001 8
+b111111111 9
+0:
+b01000001001000000000000000000000 ;
+b11000000101000000000000000000000 <
+b000000001 =
+b10000010 >
+b10000001 ?
+0@
+1A
+1B
+b101000000000000000000000 Q
+0S
+b00001 T
+b00001 V
+b01010000000000000000000000 X
+0Y
+b110101111111111111111111111 Z
+b010100000000000000000000000 [
+1\
+b001010000000000000000000000 ]
+0^
+0_
+b00101000000000000000000000 `
+b00010 a
+b00010 b
+b00000000000000000000000000101000000000000000000000000 c
+b01000000000000000000000 d
+0e
+0f
+0g
+b00000001 h
+b10000001 j
+b1000000101000000000000000000000 k
+0l
+b1000000101000000000000000000000 m
+b1000000101000000000000000000000 r
+0s
+b01000000101000000000000000000000 t
+b00001 v
+b01010000000000000000000000 w
+0x
+b00001 y
+b10100000000000000000000000 }
+0!"
+b10100000000000000000000000 ""
+0#"
+b10100000000000000000000000 $"
+0%"
+b10100000000000000000000000 &"
+0'"
+b01010000000000000000000000 ("
+0)"
+b010100000000000000000000000 *"
+b110101111111111111111111111 +"
+1,"
+b001010000000000000000000000 -"
+b001010000000000000000000000 ."
+b00101000000000000000000000 /"
+b00010 0"
+b0010100000000000000000000011111 1"
+b001010000000000 3"
+b0010100 5"
+b001 7"
+b10 8"
+b001010000000000000000000000 :"
+b00010 ;"
+b00000000000000000000000000101000000000000000000000000 <"
+b00010 ="
+b001010000000000000000000000 >"
+b0001010000000000000000000000 ?"
+b000101000000000000000000000000 @"
+b0000000101000000000000000000000000 A"
+b000000000000000101000000000000000000000000 B"
+b0000000000000000000000000000000101000000000000000000000000 C"
+b1000000101000000000000000000000 D"
+0F"
+b1000000101000000000000000000000 G"
+b1000000101000000000000000000000 H"
+#280000000
+0!
+0'
+#290000000
+1!
+1'
+b01000000101000000000000000000000 -
+b00000001 1
+#300000000
+0!
+0'
+#310000000
+1!
+b01000000101000000000000000000000 %
+1'
+b01000000101000000000000000000000 +
+b00000011 1
+#320000000
+0!
+0'
+#330000000
+1!
+1'
+b00000111 1
+#340000000
+0!
+0'
+#350000000
+1!
+1'
+b00001111 1
+#360000000
+0!
+0'
+#370000000
+1!
+1'
+b00011111 1
+#380000000
+0!
+0'
+#390000000
+1!
+1'
+b00111111 1
+#400000000
+0!
+0'
+#410000000
+1!
+1'
+b01111111 1
+#420000000
+0!
+0'
+#430000000
+1!
+1'
+b11111111 1
+#440000000
+0!
+0'
+#450000000
+1!
+1&
+1'
+1,
+00
+b00000000 1
+#460000000
+0!
+0'
+#470000000
+1!
+0&
+1'
+0,
+10
+#480000000
+0!
+0'
+#490000000
+1!
+1'
+b00000001 1
+#500000000
+0!
+0'

@@ -41,10 +41,11 @@ myfadd: $(MYFADD) $(TB_MYFADD)
 # -----------------------------
 alu: $(MYFADD) $(ALU) $(TB_ALU)
 	@echo "Compilando ALU..."
-	ghdl -a $(MYFADD) $(ALU) $(TB_ALU)
-	ghdl -e $(EXE_ALU)
-	ghdl -r $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=200ns
+	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(TB_ALU)
+	ghdl -e --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
+	ghdl -r --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
 	@echo "Simulação ALU concluída, arquivo VCD: $(SIM)/alu.vcd"
+
 
 # -----------------------------
 # Testbench CPU
