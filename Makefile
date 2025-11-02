@@ -52,9 +52,9 @@ addsub: $(ADDSUB) $(TB_ADDSUB)
 # -----------------------------
 # Testbench ALU
 # -----------------------------
-alu: $(MYFADD) $(ALU) $(TB_ALU)
+alu: $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
 	@echo "Compilando ALU..."
-	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(TB_ALU)
+	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
 	ghdl -e --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
 	ghdl -r --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
 	@echo "Simulação ALU concluída, arquivo VCD: $(SIM)/alu.vcd"

@@ -12,14 +12,15 @@ architecture sim of tb_alu is
       clk      : in  std_logic;
       op_code  : in  std_logic_vector(3 downto 0);
       a, b     : in  std_logic_vector(31 downto 0);
-      result   : out std_logic_vector(31 downto 0);
+      result   : out std_logic_vector(32 downto 0);
       done     : out std_logic
     );
   end component;
 
   signal clk      : std_logic := '0';
   signal op_code  : std_logic_vector(3 downto 0);
-  signal a, b, result : std_logic_vector(31 downto 0);
+  signal a, b     : std_logic_vector(31 downto 0);
+  signal result   : std_logic_vector(32 downto 0);
   signal done     : std_logic;
 
 begin
@@ -59,13 +60,13 @@ begin
     a <= x"41200000";  -- 10.0 em IEEE-754
     b <= x"40A00000";  -- 5.0 em IEEE-754
     op_code <= "0100";  -- FPADD
-    wait for 100 ns;
+    wait for 40 ns;
 
     ---------------------------------------------------------------------
     -- Teste: FPSUB
     ---------------------------------------------------------------------
     op_code <= "0101";  -- FPSUB (10.0 - 5.0)
-    wait for 100 ns;
+    wait for 40 ns;
 
     wait;
   end process;
