@@ -5,19 +5,25 @@ file . "tb/tb_alu.vhd" "6c1fbfc005d143da46db79dc8f867ecb85993eca" "2025110123101
 file . "src/alu.vhd" "de626502306fa0bb4bd00102d4fceca3a7071fab" "20251101231018.068":
   entity alu at 1( 0) + 0 on 207;
   architecture behavioral of alu at 15( 345) + 0 on 208;
-file . "tb/tb_myfadd.vhd" "9f78cb543fd7e0773f9b99599110506a24cc689b" "20251101222053.188":
-  entity tb_myfadd at 8( 396) + 0 on 65;
-  architecture behavorial of tb_myfadd at 18( 546) + 0 on 66;
-file . "src/myfadd.vhd" "403238c4ce3fa7cf17d2914edfd5a92b78a84604" "20251101231018.065":
-  entity rightshiftersticky26_by_max_25_comb_uid4 at 16( 675) + 0 on 195;
-  architecture arch of rightshiftersticky26_by_max_25_comb_uid4 at 31( 1079) + 0 on 196;
-  entity intadder_27_comb_uid6 at 94( 3805) + 0 on 197;
-  architecture arch of intadder_27_comb_uid6 at 109( 4187) + 0 on 198;
-  entity lzc_26_comb_uid8 at 132( 4982) + 0 on 199;
-  architecture arch of lzc_26_comb_uid8 at 145( 5278) + 0 on 200;
-  entity leftshifter27_by_max_26_comb_uid10 at 200( 7492) + 0 on 201;
-  architecture arch of leftshifter27_by_max_26_comb_uid10 at 214( 7855) + 0 on 202;
-  entity intadder_31_comb_uid13 at 255( 9705) + 0 on 203;
-  architecture arch of intadder_31_comb_uid13 at 270( 10088) + 0 on 204;
-  entity ieeefpadd_8_23_comb_uid2 at 293( 10907) + 0 on 205;
-  architecture arch of ieeefpadd_8_23_comb_uid2 at 307( 11261) + 0 on 206;
+file . "tb/tb_myfadd.vhd" "9f78cb543fd7e0773f9b99599110506a24cc689b" "20251102002103.560":
+  entity tb_myfadd at 8( 396) + 0 on 277;
+  architecture behavorial of tb_myfadd at 18( 546) + 0 on 278;
+file . "src/myfadd.vhd" "403238c4ce3fa7cf17d2914edfd5a92b78a84604" "20251102002103.555":
+  entity rightshiftersticky26_by_max_25_comb_uid4 at 16( 675) + 0 on 265;
+  architecture arch of rightshiftersticky26_by_max_25_comb_uid4 at 31( 1079) + 0 on 266;
+  entity intadder_27_comb_uid6 at 94( 3805) + 0 on 267;
+  architecture arch of intadder_27_comb_uid6 at 109( 4187) + 0 on 268;
+  entity lzc_26_comb_uid8 at 132( 4982) + 0 on 269;
+  architecture arch of lzc_26_comb_uid8 at 145( 5278) + 0 on 270;
+  entity leftshifter27_by_max_26_comb_uid10 at 200( 7492) + 0 on 271;
+  architecture arch of leftshifter27_by_max_26_comb_uid10 at 214( 7855) + 0 on 272;
+  entity intadder_31_comb_uid13 at 255( 9705) + 0 on 273;
+  architecture arch of intadder_31_comb_uid13 at 270( 10088) + 0 on 274;
+  entity ieeefpadd_8_23_comb_uid2 at 293( 10907) + 0 on 275;
+  architecture arch of ieeefpadd_8_23_comb_uid2 at 307( 11261) + 0 on 276;
+file . "src/intAddSub.vhd" "cc36b164ea680b0a2ae8dc619d2309e2a673a1d8" "20251102001825.537":
+  entity intaddsub_w32_xcy_comb_uid2 at 16( 618) + 0 on 261;
+  architecture arch of intaddsub_w32_xcy_comb_uid2 at 30( 970) + 0 on 262;
+file . "tb/tb_intAddSub.vhd" "d1cc9e5aeb017d71b47b38ba40f89327fbb3e9bc" "20251102001825.540":
+  entity tb_intaddsub at 8( 398) + 0 on 263;
+  architecture behavorial of tb_intaddsub at 18( 551) + 0 on 264;
