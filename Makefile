@@ -34,9 +34,9 @@ all:
 # -----------------------------
 myfadd: $(MYFADD) $(TB_MYFADD)
 	@echo "Compilando myfadd..."
-	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(TB_MYFADD)
-	ghdl -e --ieee=standard --ieee=synopsys -fexplicit $(EXE_MYFADD)
-	ghdl -r --ieee=standard --ieee=synopsys -fexplicit $(EXE_MYFADD) --vcd=$(SIM)/myfadd.vcd --stop-time=12652ns
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(TB_MYFADD)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_MYFADD)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_MYFADD) --vcd=$(SIM)/myfadd.vcd --stop-time=12652ns
 	@echo "Simulação myfadd concluída, arquivo VCD: $(SIM)/myfadd.vcd"
 
 
@@ -44,9 +44,9 @@ myfadd: $(MYFADD) $(TB_MYFADD)
 # Testbench intAddSub
 # -----------------------------
 addsub: $(ADDSUB) $(TB_ADDSUB)
-	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(TB_ADDSUB)
-	ghdl -e --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB)
-	ghdl -r --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB) --vcd=$(SIM)/intAddSub.vcd --stop-time=10042ns
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(TB_ADDSUB)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB) --vcd=$(SIM)/intAddSub.vcd --stop-time=10042ns
 	@echo "Simulação addsub concluída, arquivo VCD: $(SIM)/intAddSub.vcd"
 
 # -----------------------------
@@ -54,9 +54,9 @@ addsub: $(ADDSUB) $(TB_ADDSUB)
 # -----------------------------
 alu: $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
 	@echo "Compilando ALU..."
-	ghdl -a --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
-	ghdl -e --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
-	ghdl -r --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
 	@echo "Simulação ALU concluída, arquivo VCD: $(SIM)/alu.vcd"
 
 
@@ -65,9 +65,9 @@ alu: $(ADDSUB) $(MYFADD) $(ALU) $(TB_ALU)
 # -----------------------------
 cpu: $(MYFADD) $(ALU) $(CPU) $(TB_CPU)
 	@echo "Compilando CPU..."
-	ghdl -a $(MYFADD) $(ALU) $(CPU) $(TB_CPU)
-	ghdl -e $(EXE_CPU)
-	ghdl -r $(EXE_CPU) --vcd=$(SIM)/cpu.vcd --stop-time=500ns
+	ghdl -a --std=08 $(MYFADD) $(ALU) $(CPU) $(TB_CPU)
+	ghdl -e --std=08 $(EXE_CPU)
+	ghdl -r --std=08 $(EXE_CPU) --vcd=$(SIM)/cpu.vcd --stop-time=500ns
 	@echo "Simulação CPU concluída, arquivo VCD: $(SIM)/cpu.vcd"
 
 # -----------------------------
