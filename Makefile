@@ -9,25 +9,25 @@ CLK_DELAY = 10ns
 
 # Arquivos fonte
 MYFADD = $(SRC)/myfadd.vhd
-ADDSUB = $(SRC)/intAddSub.vhd
+MEMORY = $(SRC)/memory.vhd
 ALU    = $(SRC)/alu.vhd
 CPU    = $(SRC)/cpu_top.vhd
 
 # Testbenches
 TB_MYFADD = $(TB)/tb_myfadd.vhd
-TB_ADDSUB = $(TB)/tb_intAddSub.vhd
+TB_MEMORY = $(TB)/tb_memory.vhd
 TB_ALU    = $(TB)/tb_alu.vhd
 TB_CPU    = $(TB)/tb_cpu.vhd
 
 # Nome dos executáveis
 EXE_MYFADD = tb_myfadd
-EXE_ADDSUB = tb_intAddSub
+EXE_MEMORY = tb_memory
 EXE_ALU    = tb_alu
 EXE_CPU    = tb_cpu
 
 # Default: nada
 all:
-	@echo "Use make myfadd / make alu / make cpu para simular cada entidade"
+	@echo "Use make myfadd / make alu / make memory /make cpu para simular cada entidade"
 
 # -----------------------------
 # Testbench myFAdd
@@ -43,11 +43,11 @@ myfadd: $(MYFADD) $(TB_MYFADD)
 # -----------------------------
 # Testbench intAddSub
 # -----------------------------
-addsub: $(ADDSUB) $(TB_ADDSUB)
-	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(ADDSUB) $(TB_ADDSUB)
-	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB)
-	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ADDSUB) --vcd=$(SIM)/intAddSub.vcd --stop-time=10042ns
-	@echo "Simulação addsub concluída, arquivo VCD: $(SIM)/intAddSub.vcd"
+memory: $(MEMORY) $(TB_MEMORY)
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MEMORY) $(TB_MEMORY)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_MEMORY)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_MEMORY) --vcd=$(SIM)/memory.vcd --stop-time=10042ns
+	@echo "Simulação MEMORY concluída, arquivo VCD: $(SIM)/memory.vcd"
 
 # -----------------------------
 # Testbench ALU
