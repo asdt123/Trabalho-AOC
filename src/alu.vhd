@@ -1,15 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use IEEE.STD_LOGIC_signed.all;
 
 entity alu is
   port (
-    clk      : in  std_logic;
-    op_code  : in  std_logic_vector(3 downto 0);
-    a, b     : in  std_logic_vector(31 downto 0);
-    result   : out std_logic_vector(31 downto 0);
-    overFlow : out std_logic;
-    done     : out std_logic
+    alu_cont     : in  std_logic_vector(2 downto 0);
+    a, b         : in  std_logic_vector(31 downto 0);
+    alu_result   : out std_logic_vector(31 downto 0);
+    zero         : out std_logic
   );
 end entity alu;
 
@@ -23,35 +22,14 @@ architecture Behavioral of alu is
     );
   end component;
 
-  component IntAddSub_w32_XcY_comb_uid2 is
-    port (
-      X     : in  std_logic_vector(31 downto 0);
-      Y     : in  std_logic_vector(31 downto 0);
-      negY  : in  std_logic;
-      R     : out std_logic_vector(32 downto 0)
-    );
-  end component;
-
-  -- Sinais internos
-  signal int_sum   : std_logic_vector(32 downto 0);
+ -- Sinais internos
+  signal int_res   : std_logic_vector(32 downto 0);
   signal float_res : std_logic_vector(31 downto 0);
-  signal int_res   : std_logic_vector(31 downto 0);
-  signal r_logic   : std_logic_vector(31 downto 0);
-  signal neg_y     : std_logic;
-  signal ovf       : std_logic;
-  signal done_reg  : std_logic := '0';
-  signal fadd_x, fadd_y : std_logic_vector(31 downto 0);
+  signal result    : std_logic_vector(31 downto 0);
+  signal fadd_x    : std_logic_vector(31 downto 0);
+  signal fadd_y    : std_logic_vector(31 downto 0);
 
 begin
-
-  -- Instancias
-  u_intaddsub : IntAddSub_w32_XcY_comb_uid2
-    port map (
-      X     => a,
-      Y     => b,
-      negY  => neg_y,
-      R     => int_sum
-    );
 
   u_fadd : IEEEFPAdd_8_23_comb_uid2
     port map (
@@ -63,65 +41,41 @@ begin
   -------------------------------------------------------------------------
   -- Lógica combinacional principal
   -------------------------------------------------------------------------
-  process(all)
+  process(alu_cont,a,b,float_res)
   begin
-    -- Valores padrão
-    int_res  <= (others => '0');
-    neg_y    <= '0';
-    ovf      <= '0';
-    done_reg <= '0';
-    fadd_x   <= (others => '0');
-    fadd_y   <= (others => '0');
+    -- valores default (evita latch)
+    fadd_x <= (others => '0');
+    fadd_y <= (others => '0');
+    result <= (others => '0');
 
-    case op_code is
-      when "0000" =>  -- ADD inteiro
-        neg_y    <= '0';
-        int_res  <= int_sum(31 downto 0);
-        ovf      <= int_sum(32);
-        done_reg <= '1';
+    case alu_cont is
+      when "000" =>  -- ADD inteiro
+        result <= std_logic_vector(signed(a) + signed(b));
 
-      when "0001" =>  -- SUB inteiro
-        neg_y    <= '1';
-        int_res  <= int_sum(31 downto 0);
-        ovf      <= int_sum(32);
-        done_reg <= '1';
+      when "001" =>  -- SUB inteiro
+        result <= std_logic_vector(signed(a) - signed(b));
 
-      when "0010" =>  -- ADD float
+      when "010" =>  -- ADD float
         fadd_x   <= a;
         fadd_y   <= b;
-        int_res  <= float_res;
-        done_reg <= '1';
+        result  <= float_res;
 
-      when "0011" =>  -- SUB float
+      when "011" =>  -- SUB float
         fadd_x   <= a;
         fadd_y   <= not b(31) & b(30 downto 0);
-        int_res  <= float_res;
-        done_reg <= '1';
+        result  <= float_res;
 
-      when "0100" =>  -- AND lógico
-        int_res  <= a and b;
-        done_reg <= '1';
+      when "100" =>  -- AND lógico
+        result  <= a and b;
 
-      when "0101" =>  -- OR lógico
-        int_res  <= a or b;
-        done_reg <= '1';
+      when "101" =>  -- OR lógico
+        result  <= a or b;
 
-      when others =>
-        int_res  <= (others => '0');
-        done_reg <= '0';
+      when others => -- ADD int
+        result   <= a + b;
+        
     end case;
   end process;
-
-  -------------------------------------------------------------------------
-  -- Registrando saída (opcional)
-  -------------------------------------------------------------------------
-  process(clk)
-  begin
-    if rising_edge(clk) then
-      result   <= int_res;
-      overFlow <= ovf;
-      done     <= done_reg;
-    end if;
-  end process;
-
+  zero <= '1' when result=x"00000000" else '0';
+  alu_result <= result;
 end architecture Behavioral;

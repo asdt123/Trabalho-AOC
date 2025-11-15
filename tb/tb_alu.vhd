@@ -1,7 +1,5 @@
 --------------------------------------------------------------------------------
--- Testbench for ALU
--- Compatible with FloPoCo-style input files
--- Reads from: tests/alu.input
+-- Testbench for ALU (updated for combinational ALU without clk/overflow/done)
 --------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -14,36 +12,29 @@ end entity;
 
 architecture behavioral of tb_alu is
 
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   -- Component under test
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   component alu
     port (
-      clk      : in  std_logic;
-      op_code  : in  std_logic_vector(3 downto 0);
-      a, b     : in  std_logic_vector(31 downto 0);
-      result   : out std_logic_vector(31 downto 0);
-      overFlow : out std_logic;
-      done     : out std_logic
+      alu_cont   : in  std_logic_vector(2 downto 0);
+      a, b       : in  std_logic_vector(31 downto 0);
+      alu_result : out std_logic_vector(31 downto 0);
+      zero       : out std_logic
     );
   end component;
 
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   -- Signals
-  -------------------------------------------------------------------------
-  signal clk       : std_logic := '0';
-  signal rst       : std_logic := '0';
-  signal op_code   : std_logic_vector(3 downto 0);
-  signal a, b      : std_logic_vector(31 downto 0);
-  signal result    : std_logic_vector(31 downto 0);
-  signal overFlow  : std_logic;
-  signal done      : std_logic;
+  ------------------------------------------------------------------------------
+  signal alu_cont   : std_logic_vector(2 downto 0);
+  signal a, b       : std_logic_vector(31 downto 0);
+  signal alu_result : std_logic_vector(31 downto 0);
+  signal zero       : std_logic;
 
-  constant clk_period : time := 10 ns;
-
-  -------------------------------------------------------------------------
-  -- Functions for conversion and display
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+  -- Helpers to convert text file input to std_logic_vector
+  ------------------------------------------------------------------------------
   function chr(sl: std_logic) return character is
     variable c: character;
   begin
@@ -71,92 +62,91 @@ architecture behavioral of tb_alu is
 
 begin
 
-  -------------------------------------------------------------------------
-  -- Clock generation
-  -------------------------------------------------------------------------
-  process
-  begin
-    clk <= '0';
-    wait for clk_period / 2;
-    clk <= '1';
-    wait for clk_period / 2;
-  end process;
-
-  -------------------------------------------------------------------------
-  -- Instantiate the ALU
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+  -- Instantiate ALU
+  ------------------------------------------------------------------------------
   uut: alu
     port map (
-      clk      => clk,
-      op_code  => op_code,
-      a        => a,
-      b        => b,
-      result   => result,
-      overFlow => overFlow,
-      done     => done
+      alu_cont   => alu_cont,
+      a          => a,
+      b          => b,
+      alu_result => alu_result,
+      zero       => zero
     );
 
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   -- Stimulus process
-  -------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   process
-    file inputsFile : text open read_mode is "tests/alu.input";
-    variable input_line, exp_line : line;
-    variable tmpChar  : character;
-    variable v_op     : bit_vector(3 downto 0);
-    variable v_a      : bit_vector(31 downto 0);
-    variable v_b      : bit_vector(31 downto 0);
-    variable v_r      : bit_vector(32 downto 0);
-    variable expected_R : std_logic_vector(32 downto 0);
-    variable testCounter : integer := 1;
-    variable errorCounter : integer := 0;
+    file f : text open read_mode is "tests/alu.input";
+    variable line_in  : line;
+    variable line_exp : line;
+
+    variable v_op  : std_logic_vector(2 downto 0);
+    variable v_a   : std_logic_vector(31 downto 0);
+    variable v_b   : std_logic_vector(31 downto 0);
+    variable v_r   : std_logic_vector(31 downto 0);
+
+    variable expected : std_logic_vector(31 downto 0);
+
+    variable test_count  : integer := 1;
+    variable error_count : integer := 0;
   begin
-    wait for 10 ns;
 
-    readline(inputsFile, input_line); -- skip header
+    -- skip header if any
+    if not endfile(f) then
+      readline(f, line_in);
+    end if;
 
-    while not endfile(inputsFile) loop
-      readline(inputsFile, input_line); -- comment line
-      readline(inputsFile, input_line); -- actual input line
+    while not endfile(f) loop
 
-      read(input_line, v_op);
-      read(input_line, v_a);
-      read(input_line, v_b);
+      ------------------------------------------------------------------------
+      -- Read test input
+      ------------------------------------------------------------------------
+      readline(f, line_in);   -- actual data
 
-      op_code <= to_stdlogicvector(v_op);
-      a       <= to_stdlogicvector(v_a);
-      b       <= to_stdlogicvector(v_b);
+      read(line_in, v_op);
+      read(line_in, v_a);
+      read(line_in, v_b);
 
-      -- wait for operation to complete
-      wait for clk_period * 2;
+      alu_cont <= std_logic_vector(v_op);
+      a        <= std_logic_vector(v_a);
+      b        <= std_logic_vector(v_b);
 
-      -- skip comment line "# Expected outputs for R"
-      readline(inputsFile, exp_line);
-      -- read expected output line
-      readline(inputsFile, exp_line);
-      read(exp_line, v_r);
+      wait for 30 ns; -- ALU is combinational -> small delay
 
-      expected_R := to_stdlogicvector(v_r);
+      ------------------------------------------------------------------------
+      -- Read expected output
+      ------------------------------------------------------------------------
+      readline(f, line_exp);  -- expected value line
+      read(line_exp, v_r);
+      expected := std_logic_vector(v_r);
 
-      -------------------------------------------------------------------
-      -- Check results
-      -------------------------------------------------------------------
-      if result & overFlow = expected_R then
-        report "Test #" & integer'image(testCounter) & " passed.";
+      ------------------------------------------------------------------------
+      -- Compare
+      ------------------------------------------------------------------------
+      if alu_result = expected then
+        report "Test #" & integer'image(test_count) & " passed:";
       else
-        errorCounter := errorCounter + 1;
-        report "X Test #" & integer'image(testCounter) & " failed:"
-          & lf & "  Expected: " & str(expected_R)
-          & lf & "  Got:      " & str(result & overFlow)
-          severity error;
+        error_count := error_count + 1;
+
+        report "X Test #" & integer'image(test_count) & " FAILED:" &
+               lf & "  Expected: " & str(expected) &
+               lf & "  Got:      " & str(alu_result)
+               severity error;
       end if;
 
-      testCounter := testCounter + 1;
-      wait for clk_period;
+      test_count := test_count + 1;
+
     end loop;
 
-    report integer'image(errorCounter) & " error(s) encountered." severity note;
-    report "End of simulation after " & integer'image(testCounter-1) & " tests" severity note;
+    --------------------------------------------------------------------------
+    -- End report
+    --------------------------------------------------------------------------
+    report integer'image(error_count) & " error(s) encountered." severity note;
+    report "End of simulation with " & integer'image(test_count-1) &
+           " tests." severity note;
+
     wait;
   end process;
 
