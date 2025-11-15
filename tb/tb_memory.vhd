@@ -40,6 +40,7 @@ begin
             mem_read_data => mem_read_data
         );
 
+    
     ------------------------------------------------------
     -- PROCESSO DE LEITURA DO ARQUIVO HEX
     ------------------------------------------------------
@@ -67,7 +68,12 @@ begin
         mem_read <= '0';
         wait for 20 ns;
         report "ESCRITA NA MEMORIA";
-        
+
+        -- pular header se existir
+        if not endfile(f) then
+        readline(f, line_v);
+        end if;
+
         while not endfile(f) loop
             readline(f, line_v);
 
