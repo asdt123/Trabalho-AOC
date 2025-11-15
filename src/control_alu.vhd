@@ -1,30 +1,50 @@
--- fpga4student.com: FPGA projects, Verilog projects, VHDL projects
--- VHDL project: VHDL code for single-cycle MIPS Processor
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
--- VHDL code for ALU Control Unit of the MIPS Processor
-entity ALU_Control_VHDL is
-port(
-  ALU_Control: out std_logic_vector(2 downto 0);
-  ALUOp : in std_logic_vector(1 downto 0);
-  ALU_Funct : in std_logic_vector(2 downto 0)
-);
-end ALU_Control_VHDL;
 
-architecture Behavioral of ALU_Control_VHDL is
+entity ALU_Control is
+  port(
+    Op          : in  std_logic_vector(1 downto 0);
+    Funct       : in  std_logic_vector(2 downto 0);
+    ALU_Cont    : out std_logic_vector(2 downto 0)
+  );
+end entity;
+
+architecture Behavioral of ALU_Control is
 begin
-process(ALUOp,ALU_Funct)
-begin
-  case ALUOp is
-    when "00" => 
-    ALU_Control <= ALU_Funct(2 downto 0);
-    when "01" => 
-    ALU_Control <= "001";
-    when "10" => 
-    ALU_Control <= "100";
-    when "11" => 
-    ALU_Control <= "000";
-    when others => ALU_Control <= "000";
-  end case;
-end process;
-end Behavioral;
+  process(Op, Funct)
+  begin
+    case Op is
+
+      -------------------------------------------------------------------
+      -- Tipo R → operação definida pelo campo funct
+      -------------------------------------------------------------------
+      when "00" => 
+        ALU_Cont <= Funct(2 downto 0);
+
+      -------------------------------------------------------------------
+      -- LW / SW → ADD inteiro (calcular endereço)
+      -------------------------------------------------------------------
+      when "01" =>
+        ALU_Cont <= "000";   -- ADD INT
+
+      -------------------------------------------------------------------
+      -- BEQ → SUB inteiro (comparar igualdade)
+      -------------------------------------------------------------------
+      when "10" =>
+        ALU_Cont <= "001";   -- SUB INT
+
+      -------------------------------------------------------------------
+      -- Operações imediatas 
+      -------------------------------------------------------------------
+      when "11" =>
+        ALU_Cont <= Funct(2 downto 0);
+
+      -------------------------------------------------------------------
+      -- default
+      -------------------------------------------------------------------
+      when others =>
+        ALU_Cont <= "000";   -- ADD inteiro
+
+    end case;
+  end process;
+end architecture;

@@ -1,0 +1,57 @@
+$date
+  Sat Nov 15 20:06:18 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module textio $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module tb_control_alu $end
+$var reg 2 ! op[1:0] $end
+$var reg 3 " funct[2:0] $end
+$var reg 3 # alu_cont[2:0] $end
+$scope module uut $end
+$var reg 2 $ op[1:0] $end
+$var reg 3 % funct[2:0] $end
+$var reg 3 & alu_cont[2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+b00 !
+b111 "
+b111 #
+b00 $
+b111 %
+b111 &
+#20000000
+b01 !
+b010 "
+b000 #
+b01 $
+b010 %
+b000 &
+#40000000
+b10 !
+b000 "
+b001 #
+b10 $
+b000 %
+b001 &
+#60000000
+b11 !
+b010 "
+b010 #
+b11 $
+b010 %
+b010 &
+#80000000

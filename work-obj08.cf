@@ -1,10 +1,10 @@
 v 4
-file . "tb/tb_memory.vhd" "06234242e04de01d56e8b712b8a57771db8fa1f8" "20251115222220.662":
-  entity tb_memory at 1( 0) + 0 on 539;
-  architecture behavioral of tb_memory at 10( 188) + 0 on 540;
-file . "src/memory.vhd" "7927f464b567364b88284077122b4175fc545c15" "20251115222220.660":
-  entity data_memory_vhdl at 5( 260) + 0 on 537;
-  architecture behavioral of data_memory_vhdl at 18( 601) + 0 on 538;
+file . "tb/tb_memory.vhd" "93cd824d07ee77089ced75073db75088e2b83c54" "20251115230844.711":
+  entity tb_memory at 1( 0) + 0 on 595;
+  architecture behavioral of tb_memory at 10( 188) + 0 on 596;
+file . "src/memory.vhd" "7927f464b567364b88284077122b4175fc545c15" "20251115230844.709":
+  entity data_memory_vhdl at 5( 260) + 0 on 593;
+  architecture behavioral of data_memory_vhdl at 18( 601) + 0 on 594;
 file . "src/intAddSub.vhd" "cc36b164ea680b0a2ae8dc619d2309e2a673a1d8" "20251115200032.659":
   entity intaddsub_w32_xcy_comb_uid2 at 16( 618) + 0 on 83;
   architecture arch of intaddsub_w32_xcy_comb_uid2 at 30( 970) + 0 on 84;
@@ -33,3 +33,9 @@ file . "tb/tb_intAddSub.vhd" "d1cc9e5aeb017d71b47b38ba40f89327fbb3e9bc" "2025111
 file . "tb/tb_myfadd.vhd" "9f78cb543fd7e0773f9b99599110506a24cc689b" "20251115213123.997":
   entity tb_myfadd at 8( 396) + 0 on 399;
   architecture behavorial of tb_myfadd at 18( 546) + 0 on 400;
+file . "src/control_alu.vhd" "745c251f019f2cd408d49ac4a190ec3ba4acc85e" "20251115230618.394":
+  entity alu_control at 1( 0) + 0 on 589;
+  architecture behavioral of alu_control at 12( 247) + 0 on 590;
+file . "tb/tb_control_alu.vhd" "3e5221e20d2bc9ca3438a390d8ffdcbd31fe6c6f" "20251115230618.400":
+  entity tb_control_alu at 4( 192) + 0 on 591;
+  architecture behavioral of tb_control_alu at 13( 333) + 0 on 592;

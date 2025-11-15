@@ -11,23 +11,26 @@ CLK_DELAY = 10ns
 MYFADD = $(SRC)/myfadd.vhd
 MEMORY = $(SRC)/memory.vhd
 ALU    = $(SRC)/alu.vhd
+C_ALU  = $(SRC)/control_alu.vhd
 CPU    = $(SRC)/cpu_top.vhd
 
 # Testbenches
 TB_MYFADD = $(TB)/tb_myfadd.vhd
 TB_MEMORY = $(TB)/tb_memory.vhd
 TB_ALU    = $(TB)/tb_alu.vhd
+TB_C_ALU  = $(TB)/tb_control_alu.vhd
 TB_CPU    = $(TB)/tb_cpu.vhd
 
 # Nome dos executáveis
 EXE_MYFADD = tb_myfadd
 EXE_MEMORY = tb_memory
 EXE_ALU    = tb_alu
+EXE_C_ALU  = tb_control_alu
 EXE_CPU    = tb_cpu
 
 # Default: nada
 all:
-	@echo "Use make myfadd / make alu / make memory /make cpu para simular cada entidade"
+	@echo "Use make myfadd / make alu / make control make memory / make cpu para simular cada entidade"
 
 # -----------------------------
 # Testbench myFAdd
@@ -41,7 +44,7 @@ myfadd: $(MYFADD) $(TB_MYFADD)
 
 
 # -----------------------------
-# Testbench intAddSub
+# Testbench memory
 # -----------------------------
 memory: $(MEMORY) $(TB_MEMORY)
 	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MEMORY) $(TB_MEMORY)
@@ -58,6 +61,15 @@ alu: $(MYFADD) $(ALU) $(TB_ALU)
 	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
 	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
 	@echo "Simulação ALU concluída, arquivo VCD: $(SIM)/alu.vcd"
+
+# -----------------------------
+# Testbench control ALU
+# -----------------------------
+c_alu: $(C_ALU) $(TB_C_ALU)
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(C_ALU) $(TB_C_ALU)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_C_ALU)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_C_ALU) --vcd=$(SIM)/control_alu.vcd --stop-time=10042ns
+	@echo "Simulação control_alu concluída, arquivo VCD: $(SIM)/control_alu.vcd"
 
 
 # -----------------------------
