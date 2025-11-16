@@ -12,6 +12,7 @@ MYFADD = $(SRC)/myfadd.vhd
 MEMORY = $(SRC)/memory.vhd
 ALU    = $(SRC)/alu.vhd
 C_ALU  = $(SRC)/control_alu.vhd
+REGS 	 = $(SRC)/register.vhd
 CPU    = $(SRC)/cpu_top.vhd
 
 # Testbenches
@@ -19,6 +20,7 @@ TB_MYFADD = $(TB)/tb_myfadd.vhd
 TB_MEMORY = $(TB)/tb_memory.vhd
 TB_ALU    = $(TB)/tb_alu.vhd
 TB_C_ALU  = $(TB)/tb_control_alu.vhd
+TB_REGS 	= $(TB)/tb_register.vhd
 TB_CPU    = $(TB)/tb_cpu.vhd
 
 # Nome dos executáveis
@@ -26,6 +28,7 @@ EXE_MYFADD = tb_myfadd
 EXE_MEMORY = tb_memory
 EXE_ALU    = tb_alu
 EXE_C_ALU  = tb_control_alu
+EXE_REGS 	 = tb_register
 EXE_CPU    = tb_cpu
 
 # Default: nada
@@ -70,6 +73,15 @@ c_alu: $(C_ALU) $(TB_C_ALU)
 	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_C_ALU)
 	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_C_ALU) --vcd=$(SIM)/control_alu.vcd --stop-time=10042ns
 	@echo "Simulação control_alu concluída, arquivo VCD: $(SIM)/control_alu.vcd"
+
+# -----------------------------
+# Testbench Register
+# -----------------------------
+register: $(REGS) $(TB_REGS)
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(REGS) $(TB_REGS)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_REGS)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_REGS) --vcd=$(SIM)/register.vcd --stop-time=10042ns
+	@echo "Simulação register concluída, arquivo VCD: $(SIM)/register.vcd"
 
 
 # -----------------------------

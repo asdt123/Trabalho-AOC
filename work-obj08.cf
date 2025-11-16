@@ -39,3 +39,9 @@ file . "src/control_alu.vhd" "745c251f019f2cd408d49ac4a190ec3ba4acc85e" "2025111
 file . "tb/tb_control_alu.vhd" "3e5221e20d2bc9ca3438a390d8ffdcbd31fe6c6f" "20251115230618.400":
   entity tb_control_alu at 4( 192) + 0 on 591;
   architecture behavioral of tb_control_alu at 13( 333) + 0 on 592;
+file . "src/register.vhd" "a1f6803cef2804d8c95aa71176d09bb028f82e3d" "20251116001322.493":
+  entity register_file_vhdl at 1( 0) + 0 on 681;
+  architecture behavioral of register_file_vhdl at 18( 534) + 0 on 682;
+file . "tb/tb_register.vhd" "efde5972a0691fa6859f3590b3ac990acad88866" "20251116001322.501":
+  entity tb_register at 1( 0) + 0 on 683;
+  architecture behavioral of tb_register at 10( 172) + 0 on 684;
