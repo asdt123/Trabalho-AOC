@@ -17,12 +17,12 @@ file . "tb/tb_register.vhd" "efde5972a0691fa6859f3590b3ac990acad88866" "20251116
 file . "src/register.vhd" "f2f054d7fc0892900c3cb2ac3b90d4544fa36f8e" "20251116143122.006":
   entity register_file_vhdl at 1( 0) + 0 on 3337;
   architecture behavioral of register_file_vhdl at 18( 534) + 0 on 3338;
-file . "tb/tb_control_alu.vhd" "17b3651269d24a17e2cae13aa82232a77fde5a71" "20251116013307.733":
-  entity tb_control_alu at 4( 192) + 0 on 735;
-  architecture behavioral of tb_control_alu at 13( 333) + 0 on 736;
-file . "src/control_alu.vhd" "10f114333190a8532ebfb235fe1b45e85caa484b" "20251116143122.009":
-  entity alu_control at 1( 0) + 0 on 3341;
-  architecture behavioral of alu_control at 12( 247) + 0 on 3342;
+file . "tb/tb_control_alu.vhd" "198b6434c3ba0cd39a2b033fc51e7e0572065c56" "20251116153933.603":
+  entity tb_control_alu at 4( 192) + 0 on 3435;
+  architecture behavioral of tb_control_alu at 13( 333) + 0 on 3436;
+file . "src/control_alu.vhd" "10f114333190a8532ebfb235fe1b45e85caa484b" "20251116153933.595":
+  entity alu_control at 1( 0) + 0 on 3433;
+  architecture behavioral of alu_control at 12( 247) + 0 on 3434;
 file . "tb/tb_myfadd.vhd" "9f78cb543fd7e0773f9b99599110506a24cc689b" "20251115213123.997":
   entity tb_myfadd at 8( 396) + 0 on 399;
   architecture behavorial of tb_myfadd at 18( 546) + 0 on 400;
