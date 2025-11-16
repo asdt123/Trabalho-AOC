@@ -14,13 +14,13 @@ architecture behavioral of tb_control_unit is
       reg_dst       : out std_logic_vector(1 downto 0);
       mem_to_reg    : out std_logic_vector(1 downto 0);
       alu_op        : out std_logic_vector(1 downto 0);
+      sign_or_zero  : out std_logic_vector(1 downto 0);
       jump          : out std_logic;
       branch        : out std_logic;
       mem_read      : out std_logic;
       mem_write     : out std_logic;
       alu_src       : out std_logic;
-      reg_write     : out std_logic;
-      sign_or_zero  : out std_logic
+      reg_write     : out std_logic
     );
   end component;
 
@@ -30,13 +30,13 @@ architecture behavioral of tb_control_unit is
   signal reg_dst       : std_logic_vector(1 downto 0);
   signal mem_to_reg    : std_logic_vector(1 downto 0);
   signal alu_op        : std_logic_vector(1 downto 0);
+  signal sign_or_zero  : std_logic_vector(1 downto 0);
   signal jump          : std_logic;
   signal branch        : std_logic;
   signal mem_read      : std_logic;
   signal mem_write     : std_logic;
   signal alu_src       : std_logic;
   signal reg_write     : std_logic;
-  signal sign_or_zero  : std_logic;
 
   -- Função: slv -> string
   function slv_to_string(slv: std_logic_vector) return string is
@@ -84,7 +84,7 @@ begin
              " | mem_write=" & std_logic'image(mem_write) &
              " | alu_src=" & std_logic'image(alu_src) &
              " | reg_write=" & std_logic'image(reg_write) &
-             " | sign_or_zero=" & std_logic'image(sign_or_zero);
+             " | sign_or_zero=" & slv_to_string(sign_or_zero);
     end procedure;
 
   begin
