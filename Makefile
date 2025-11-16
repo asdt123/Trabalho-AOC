@@ -39,7 +39,8 @@ EXE_CPU    = tb_mips32
 
 # Default: nada
 all:
-	@echo "Use make myfadd / make alu / make control / make memory / make instruction / make cpu para simular cada entidade"
+	@echo "Use make myfadd / make memory / make alu / make c_alu / make instruction /"
+	@echo "make c_unit / make register / make cpu para simular cada entidade"
 
 # -----------------------------
 # Testbench myFAdd
