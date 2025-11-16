@@ -17,7 +17,7 @@ architecture behavioral of tb_control_alu is
   ------------------------------------------------------------------------------
   component ALU_Control is
     port(
-      Op       : in  std_logic_vector(1 downto 0);
+      Op       : in  std_logic_vector(2 downto 0);
       funct       : in  std_logic_vector(2 downto 0);
       ALU_Cont    : out std_logic_vector(2 downto 0)
     );
@@ -26,7 +26,7 @@ architecture behavioral of tb_control_alu is
   ------------------------------------------------------------------------------
   -- Sinais
   ------------------------------------------------------------------------------
-  signal Op    : std_logic_vector(1 downto 0);
+  signal Op    : std_logic_vector(2 downto 0);
   signal funct    : std_logic_vector(2 downto 0);
   signal ALU_Cont : std_logic_vector(2 downto 0);
 
@@ -78,7 +78,7 @@ begin
     variable line_in  : line;
     variable line_exp : line;
 
-    variable v_aluop  : std_logic_vector(1 downto 0);
+    variable v_aluop  : std_logic_vector(2 downto 0);
     variable v_funct  : std_logic_vector(2 downto 0);
     variable v_cont   : std_logic_vector(2 downto 0);
 
