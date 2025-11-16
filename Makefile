@@ -13,6 +13,7 @@ MEMORY = $(SRC)/memory.vhd
 ALU    = $(SRC)/alu.vhd
 C_ALU  = $(SRC)/control_alu.vhd
 REGS 	 = $(SRC)/register.vhd
+INST 	 = $(SRC)/instruction_memory.vhd
 CPU    = $(SRC)/cpu_top.vhd
 
 # Testbenches
@@ -21,6 +22,7 @@ TB_MEMORY = $(TB)/tb_memory.vhd
 TB_ALU    = $(TB)/tb_alu.vhd
 TB_C_ALU  = $(TB)/tb_control_alu.vhd
 TB_REGS 	= $(TB)/tb_register.vhd
+TB_INST 	= $(TB)/tb_instruction_memory.vhd
 TB_CPU    = $(TB)/tb_cpu.vhd
 
 # Nome dos executáveis
@@ -29,11 +31,12 @@ EXE_MEMORY = tb_memory
 EXE_ALU    = tb_alu
 EXE_C_ALU  = tb_control_alu
 EXE_REGS 	 = tb_register
+EXE_INST 	 = tb_instruction_memory
 EXE_CPU    = tb_cpu
 
 # Default: nada
 all:
-	@echo "Use make myfadd / make alu / make control make memory / make cpu para simular cada entidade"
+	@echo "Use make myfadd / make alu / make control / make memory / make instruction / make cpu para simular cada entidade"
 
 # -----------------------------
 # Testbench myFAdd
@@ -82,6 +85,16 @@ register: $(REGS) $(TB_REGS)
 	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_REGS)
 	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_REGS) --vcd=$(SIM)/register.vcd --stop-time=10042ns
 	@echo "Simulação register concluída, arquivo VCD: $(SIM)/register.vcd"
+
+
+# -----------------------------
+# Testbench Instruction
+# -----------------------------
+instruction: $(INST) $(TB_INST)
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(INST) $(TB_INST)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_INST)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_INST) --vcd=$(SIM)/instruction.vcd --stop-time=10042ns
+	@echo "Simulação instruction concluída, arquivo VCD: $(SIM)/instruction.vcd"
 
 
 # -----------------------------
