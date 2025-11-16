@@ -2,34 +2,34 @@ v 4
 file . "tb/tb_control_unit.vhd" "047218c7e912df582232f8faa3d94b8b21d34473" "20251116014938.281":
   entity tb_control_unit at 1( 0) + 0 on 747;
   architecture behavioral of tb_control_unit at 8( 109) + 0 on 748;
-file . "src/control_unit.vhd" "dc23c22e996d4632cafd32c465d98d8ac54bb0d7" "20251116062319.546":
-  entity control_unit_vhdl at 3( 127) + 0 on 2107;
-  architecture behavioral of control_unit_vhdl at 15( 493) + 0 on 2108;
+file . "src/control_unit.vhd" "0839b1af2e3e2f7e93777ceeca4e8da71666a72a" "20251116143122.008":
+  entity control_unit_vhdl at 3( 127) + 0 on 3339;
+  architecture behavioral of control_unit_vhdl at 15( 493) + 0 on 3340;
 file . "tb/tb_memory.vhd" "93cd824d07ee77089ced75073db75088e2b83c54" "20251115230844.711":
   entity tb_memory at 1( 0) + 0 on 595;
   architecture behavioral of tb_memory at 10( 188) + 0 on 596;
-file . "src/memory.vhd" "7927f464b567364b88284077122b4175fc545c15" "20251116062319.548":
-  entity data_memory_vhdl at 5( 260) + 0 on 2111;
-  architecture behavioral of data_memory_vhdl at 18( 601) + 0 on 2112;
+file . "src/memory.vhd" "7927f464b567364b88284077122b4175fc545c15" "20251116143122.011":
+  entity data_memory_vhdl at 5( 260) + 0 on 3343;
+  architecture behavioral of data_memory_vhdl at 18( 601) + 0 on 3344;
 file . "src/intAddSub.vhd" "cc36b164ea680b0a2ae8dc619d2309e2a673a1d8" "20251115200032.659":
   entity intaddsub_w32_xcy_comb_uid2 at 16( 618) + 0 on 83;
   architecture arch of intaddsub_w32_xcy_comb_uid2 at 30( 970) + 0 on 84;
-file . "src/myfadd.vhd" "403238c4ce3fa7cf17d2914edfd5a92b78a84604" "20251116062319.534":
-  entity rightshiftersticky26_by_max_25_comb_uid4 at 16( 675) + 0 on 2089;
-  architecture arch of rightshiftersticky26_by_max_25_comb_uid4 at 31( 1079) + 0 on 2090;
-  entity intadder_27_comb_uid6 at 94( 3805) + 0 on 2091;
-  architecture arch of intadder_27_comb_uid6 at 109( 4187) + 0 on 2092;
-  entity lzc_26_comb_uid8 at 132( 4982) + 0 on 2093;
-  architecture arch of lzc_26_comb_uid8 at 145( 5278) + 0 on 2094;
-  entity leftshifter27_by_max_26_comb_uid10 at 200( 7492) + 0 on 2095;
-  architecture arch of leftshifter27_by_max_26_comb_uid10 at 214( 7855) + 0 on 2096;
-  entity intadder_31_comb_uid13 at 255( 9705) + 0 on 2097;
-  architecture arch of intadder_31_comb_uid13 at 270( 10088) + 0 on 2098;
-  entity ieeefpadd_8_23_comb_uid2 at 293( 10907) + 0 on 2099;
-  architecture arch of ieeefpadd_8_23_comb_uid2 at 307( 11261) + 0 on 2100;
-file . "src/alu.vhd" "23c5a89e6003e16ae8e2c265743c7f6f04585e8c" "20251116062319.540":
-  entity alu at 1( 0) + 0 on 2101;
-  architecture behavioral of alu at 15( 340) + 0 on 2102;
+file . "src/myfadd.vhd" "403238c4ce3fa7cf17d2914edfd5a92b78a84604" "20251116143121.995":
+  entity rightshiftersticky26_by_max_25_comb_uid4 at 16( 675) + 0 on 3321;
+  architecture arch of rightshiftersticky26_by_max_25_comb_uid4 at 31( 1079) + 0 on 3322;
+  entity intadder_27_comb_uid6 at 94( 3805) + 0 on 3323;
+  architecture arch of intadder_27_comb_uid6 at 109( 4187) + 0 on 3324;
+  entity lzc_26_comb_uid8 at 132( 4982) + 0 on 3325;
+  architecture arch of lzc_26_comb_uid8 at 145( 5278) + 0 on 3326;
+  entity leftshifter27_by_max_26_comb_uid10 at 200( 7492) + 0 on 3327;
+  architecture arch of leftshifter27_by_max_26_comb_uid10 at 214( 7855) + 0 on 3328;
+  entity intadder_31_comb_uid13 at 255( 9705) + 0 on 3329;
+  architecture arch of intadder_31_comb_uid13 at 270( 10088) + 0 on 3330;
+  entity ieeefpadd_8_23_comb_uid2 at 293( 10907) + 0 on 3331;
+  architecture arch of ieeefpadd_8_23_comb_uid2 at 307( 11261) + 0 on 3332;
+file . "src/alu.vhd" "a806adcc2678709ef14aa8a6445b4f47acbd3e84" "20251116143122.002":
+  entity alu at 1( 0) + 0 on 3333;
+  architecture behavioral of alu at 15( 340) + 0 on 3334;
 file . "tb/tb_alu.vhd" "b12f5f9983f27e8260a9065ca4e6c9d0069ee638" "20251115214155.655":
   entity tb_alu at 4( 241) + 0 on 463;
   architecture behavioral of tb_alu at 13( 374) + 0 on 464;
@@ -39,27 +39,27 @@ file . "tb/tb_intAddSub.vhd" "d1cc9e5aeb017d71b47b38ba40f89327fbb3e9bc" "2025111
 file . "tb/tb_myfadd.vhd" "9f78cb543fd7e0773f9b99599110506a24cc689b" "20251115213123.997":
   entity tb_myfadd at 8( 396) + 0 on 399;
   architecture behavorial of tb_myfadd at 18( 546) + 0 on 400;
-file . "src/control_alu.vhd" "2eeb6893df0412a82930030fb6e120a23254a34c" "20251116062319.546":
-  entity alu_control at 1( 0) + 0 on 2109;
-  architecture behavioral of alu_control at 12( 247) + 0 on 2110;
+file . "src/control_alu.vhd" "10f114333190a8532ebfb235fe1b45e85caa484b" "20251116143122.009":
+  entity alu_control at 1( 0) + 0 on 3341;
+  architecture behavioral of alu_control at 12( 247) + 0 on 3342;
 file . "tb/tb_control_alu.vhd" "17b3651269d24a17e2cae13aa82232a77fde5a71" "20251116013307.733":
   entity tb_control_alu at 4( 192) + 0 on 735;
   architecture behavioral of tb_control_alu at 13( 333) + 0 on 736;
-file . "src/register.vhd" "f2f054d7fc0892900c3cb2ac3b90d4544fa36f8e" "20251116062319.545":
-  entity register_file_vhdl at 1( 0) + 0 on 2105;
-  architecture behavioral of register_file_vhdl at 18( 534) + 0 on 2106;
+file . "src/register.vhd" "f2f054d7fc0892900c3cb2ac3b90d4544fa36f8e" "20251116143122.006":
+  entity register_file_vhdl at 1( 0) + 0 on 3337;
+  architecture behavioral of register_file_vhdl at 18( 534) + 0 on 3338;
 file . "tb/tb_register.vhd" "efde5972a0691fa6859f3590b3ac990acad88866" "20251116001322.501":
   entity tb_register at 1( 0) + 0 on 683;
   architecture behavioral of tb_register at 10( 172) + 0 on 684;
-file . "src/instruction_memory.vhd" "272e7d92482c465f65d72fc06e726a5ebc253d97" "20251116062319.543":
-  entity instruction_memory at 1( 0) + 0 on 2103;
-  architecture behavioral of instruction_memory at 15( 340) + 0 on 2104;
+file . "src/instruction_memory.vhd" "272e7d92482c465f65d72fc06e726a5ebc253d97" "20251116143122.004":
+  entity instruction_memory at 1( 0) + 0 on 3335;
+  architecture behavioral of instruction_memory at 15( 340) + 0 on 3336;
 file . "tb/tb_instruction_memory.vhd" "17cce14d3f1e00b253c42fcc91b554f389ac00ca" "20251116032036.840":
   entity tb_instruction_memory at 1( 0) + 0 on 1247;
   architecture behavioral of tb_instruction_memory at 10( 181) + 0 on 1248;
-file . "src/mips32.vhd" "8d76095a8b331d7eccf47c798b4b3aea8cbf3026" "20251116062319.550":
-  entity mips32 at 1( 0) + 0 on 2113;
-  architecture behavioral of mips32 at 13( 276) + 0 on 2114;
-file . "tb/tb_mips32.vhd" "4c4aae68e5dc125e8be0be10027c1e15ae496e0d" "20251116062319.551":
-  entity tb_mips32 at 1( 0) + 0 on 2115;
-  architecture behavior of tb_mips32 at 8( 106) + 0 on 2116;
+file . "src/mips32.vhd" "8d76095a8b331d7eccf47c798b4b3aea8cbf3026" "20251116143122.013":
+  entity mips32 at 1( 0) + 0 on 3345;
+  architecture behavioral of mips32 at 13( 276) + 0 on 3346;
+file . "tb/tb_mips32.vhd" "11b5e26563220692f959f2cd6bc5d1ca37d12e39" "20251116143122.014":
+  entity tb_mips32 at 1( 0) + 0 on 3347;
+  architecture behavior of tb_mips32 at 8( 106) + 0 on 3348;

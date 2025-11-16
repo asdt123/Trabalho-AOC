@@ -65,7 +65,7 @@ BEGIN
         wait for clk_period*2;
 
         -- Run simulation for 20 cycles (ou mais se quiser)
-        for cycle in 0 to 8 loop
+        for cycle in 0 to 3 loop
             wait until rising_edge(clk);
             report "Cycle " & integer'image(cycle) & 
                    " | PC=" & to_hstring(pc_out) &

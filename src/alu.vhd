@@ -55,12 +55,12 @@ begin
       when "100010" =>  -- SUB inteiro
         result <= std_logic_vector(signed(a) - signed(b));
 
-      when "000000" =>  -- ADD float
+      when "100001" =>  -- ADD float
         fadd_x   <= a;
         fadd_y   <= b;
         result  <= float_res;
 
-      when "000001" =>  -- SUB float
+      when "100011" =>  -- SUB float
         fadd_x   <= a;
         fadd_y   <= not b(31) & b(30 downto 0);
         result  <= float_res;
