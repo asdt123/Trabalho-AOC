@@ -30,7 +30,7 @@ begin
    sign_or_zero <= '1';
  else 
  case opcode is
-  when "000000" => -- add
+  when "000000" => -- R
     reg_dst <= "01";
     mem_to_reg <= "00";
     alu_op <= "00";
@@ -74,7 +74,7 @@ begin
    alu_src <= '0';
    reg_write <=  '1';
    sign_or_zero <= '1';
- when "000100" =>-- lw
+ when "010011" =>-- lw
    reg_dst <= "00";
    mem_to_reg <= "01";
    alu_op <= "11";
@@ -85,7 +85,7 @@ begin
    alu_src <= '1';
    reg_write <= '1';
    sign_or_zero <= '1';
- when "000101" => -- sw
+ when "101011" => -- sw
    reg_dst <= "00";
    mem_to_reg <= "00";
    alu_op <= "11";
@@ -96,7 +96,7 @@ begin
    alu_src <= '1';
    reg_write <= '0';
    sign_or_zero <= '1';
- when "000110" => -- beq
+ when "000100" => -- beq
    reg_dst <= "00";
    mem_to_reg <= "00";
    alu_op <= "01";
@@ -107,7 +107,7 @@ begin
    alu_src <= '0';
    reg_write <= '0';
    sign_or_zero <= '1';
- when "000111" =>-- addi
+ when "001000" =>-- addi
    reg_dst <= "00";
    mem_to_reg <= "00";
    alu_op <= "11";

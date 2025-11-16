@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_signed.all;
 
 entity alu is
   port (
-    alu_cont     : in  std_logic_vector(2 downto 0);
+    alu_cont     : in  std_logic_vector(5 downto 0);
     a, b         : in  std_logic_vector(31 downto 0);
     alu_result   : out std_logic_vector(31 downto 0);
     zero         : out std_logic
@@ -49,26 +49,26 @@ begin
     result <= (others => '0');
 
     case alu_cont is
-      when "000" =>  -- ADD inteiro
+      when "100000" =>  -- ADD inteiro
         result <= std_logic_vector(signed(a) + signed(b));
 
-      when "001" =>  -- SUB inteiro
+      when "100010" =>  -- SUB inteiro
         result <= std_logic_vector(signed(a) - signed(b));
 
-      when "010" =>  -- ADD float
+      when "000000" =>  -- ADD float
         fadd_x   <= a;
         fadd_y   <= b;
         result  <= float_res;
 
-      when "011" =>  -- SUB float
+      when "000001" =>  -- SUB float
         fadd_x   <= a;
         fadd_y   <= not b(31) & b(30 downto 0);
         result  <= float_res;
 
-      when "100" =>  -- AND lógico
+      when "100100" =>  -- AND lógico
         result  <= a and b;
 
-      when "101" =>  -- OR lógico
+      when "100101" =>  -- OR lógico
         result  <= a or b;
 
       when others => -- ADD int

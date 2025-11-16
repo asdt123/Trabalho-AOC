@@ -1,8 +1,9 @@
 00000000  -- nop / filler
 00000000  -- nop / filler
+20010007  -- addi r1, r0, 3
+20020005  -- addi r2, r0, 5
+00221822  -- sub r3, r1, r2
 00000000  -- nop / filler
-1C100001  -- addi r1, r0, 1
-1C200002  -- addi r2, r0, 2
-01320000  -- add r3, r1, r2
-03410401  -- sub r4, r3, r1
-14550001  -- sliu r5, r4, 1
+00000000  -- nop / filler
+00000000  -- nop / filler
+00000000  -- nop / filler

@@ -31,7 +31,8 @@ architecture Behavioral of mips32 is
     signal sign_ext_im, zero_ext_im, imm_ext : std_logic_vector(31 downto 0);
 
     -- ALU
-    signal ALU_Cont : std_logic_vector(2 downto 0);
+    signal ALU_Cont : std_logic_vector(5 downto 0);
+    signal funct    : std_logic_vector(5 downto 0);
     signal read_data2, ALU_out : std_logic_vector(31 downto 0);
     signal zero_flag : std_logic;
 
@@ -91,11 +92,11 @@ begin
     -- Register Destination Multiplexer
     ----------------------------------------------------------------
     reg_write_dest <= "11111" when reg_dst="10" else
-                      instr(24 downto 20) when reg_dst="01" else
-                      instr(19 downto 15);
+                      instr(15 downto 11) when reg_dst="01" else
+                      instr(20 downto 16);
 
-    reg_read_addr_1 <= instr(28 downto 24);
-    reg_read_addr_2 <= instr(23 downto 19);
+    reg_read_addr_1 <= instr(25 downto 21);
+    reg_read_addr_2 <= instr(20 downto 16);
 
     ----------------------------------------------------------------
     -- Register File
@@ -121,12 +122,18 @@ begin
     imm_ext <= sign_ext_im when sign_or_zero='1' else zero_ext_im;
 
     ----------------------------------------------------------------
+    -- Funct
+    ----------------------------------------------------------------
+    funct <= instr(5 downto 0) when reg_dst="01" else
+             instr(31 downto 26);
+
+    ----------------------------------------------------------------
     -- ALU Control
     ----------------------------------------------------------------
     ALUControl: entity work.ALU_Control
         port map(
             Op => alu_op,
-            Funct => instr(2 downto 0),
+            Funct => funct,
             ALU_Cont => ALU_Cont
         );
 
