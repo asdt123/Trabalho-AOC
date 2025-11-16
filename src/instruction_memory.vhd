@@ -31,7 +31,7 @@ begin
         variable instr_v : std_logic_vector(31 downto 0);
         variable addr : integer := 0;
     begin
-        wait for 10 ns;  -- tempo inicial para simulação
+        wait for 30 ns;  -- tempo inicial para simulação
         while not endfile(f) loop
             readline(f, line_v);
             hread(line_v, instr_v);  -- lê instrução em hexadecimal

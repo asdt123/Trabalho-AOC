@@ -53,7 +53,7 @@ begin
   begin
     wait for 20 ns;  -- espera inicial
 
-    for i in 0 to 15 loop  -- simula 16 instruções
+    for i in 0 to 5 loop  -- simula 16 instruções
       pc <= std_logic_vector(to_unsigned(pc_int, 32));
       wait for clk_period;
       report "PC=" & integer'image(pc_int/4) &

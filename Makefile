@@ -15,7 +15,7 @@ C_ALU  = $(SRC)/control_alu.vhd
 C_UNIT = $(SRC)/control_unit.vhd
 REGS 	 = $(SRC)/register.vhd
 INST 	 = $(SRC)/instruction_memory.vhd
-CPU    = $(SRC)/cpu_top.vhd
+CPU    = $(SRC)/mips32.vhd
 
 # Testbenches
 TB_MYFADD = $(TB)/tb_myfadd.vhd
@@ -25,7 +25,7 @@ TB_C_ALU  = $(TB)/tb_control_alu.vhd
 TB_C_UNIT = $(TB)/tb_control_unit.vhd
 TB_REGS 	= $(TB)/tb_register.vhd
 TB_INST 	= $(TB)/tb_instruction_memory.vhd
-TB_CPU    = $(TB)/tb_cpu.vhd
+TB_CPU    = $(TB)/tb_mips32.vhd
 
 # Nome dos executáveis
 EXE_MYFADD = tb_myfadd
@@ -35,7 +35,7 @@ EXE_C_ALU  = tb_control_alu
 EXE_C_UNIT = tb_control_unit
 EXE_REGS 	 = tb_register
 EXE_INST 	 = tb_instruction_memory
-EXE_CPU    = tb_cpu
+EXE_CPU    = tb_mips32
 
 # Default: nada
 all:
@@ -112,11 +112,11 @@ instruction: $(INST) $(TB_INST)
 # -----------------------------
 # Testbench CPU
 # -----------------------------
-cpu: $(MYFADD) $(ALU) $(CPU) $(TB_CPU)
+cpu: $(MYFADD) $(ALU) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(CPU) $(TB_CPU)
 	@echo "Compilando CPU..."
-	ghdl -a --std=08 $(MYFADD) $(ALU) $(CPU) $(TB_CPU)
-	ghdl -e --std=08 $(EXE_CPU)
-	ghdl -r --std=08 $(EXE_CPU) --vcd=$(SIM)/cpu.vcd --stop-time=500ns
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(CPU) $(TB_CPU)
+	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_CPU)
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_CPU) --vcd=$(SIM)/cpu.vcd --stop-time=500ns
 	@echo "Simulação CPU concluída, arquivo VCD: $(SIM)/cpu.vcd"
 
 # -----------------------------

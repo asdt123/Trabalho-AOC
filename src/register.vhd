@@ -17,7 +17,7 @@ end register_file_VHDL;
 
 architecture Behavioral of register_file_VHDL is
 
-  type reg_type is array (0 to 7) of std_logic_vector(31 downto 0);
+  type reg_type is array (0 to 31) of std_logic_vector(31 downto 0);
   signal reg_array : reg_type;
 
 begin
@@ -33,6 +33,30 @@ begin
       reg_array(5) <= x"00000000";
       reg_array(6) <= x"00000000";
       reg_array(7) <= x"00000000";
+      reg_array(8) <= x"00000000";
+      reg_array(9) <= x"00000000";
+      reg_array(10) <= x"00000000";
+      reg_array(11) <= x"00000000";
+      reg_array(12) <= x"00000000";
+      reg_array(13) <= x"00000000";
+      reg_array(14) <= x"00000000";
+      reg_array(15) <= x"00000000";
+      reg_array(16) <= x"00000000";
+      reg_array(17) <= x"00000000";
+      reg_array(18) <= x"00000000";
+      reg_array(19) <= x"00000000";
+      reg_array(20) <= x"00000000";
+      reg_array(21) <= x"00000000";
+      reg_array(22) <= x"00000000";
+      reg_array(23) <= x"00000000";
+      reg_array(24) <= x"00000000";
+      reg_array(25) <= x"00000000";
+      reg_array(26) <= x"00000000";
+      reg_array(27) <= x"00000000";
+      reg_array(28) <= x"00000000";
+      reg_array(29) <= x"00000000";
+      reg_array(30) <= x"00000000";
+      reg_array(31) <= x"00000000";
 
     elsif rising_edge(clk) then
       if reg_write_en = '1' then
