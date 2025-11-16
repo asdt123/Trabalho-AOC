@@ -26,7 +26,7 @@ ARCHITECTURE behavior OF tb_mips32 IS
     signal alu_result : std_logic_vector(31 downto 0);
 
     -- Clock period
-    constant clk_period : time := 10 ns;
+    constant clk_period : time := 40 ns;
 
 BEGIN
 
@@ -62,10 +62,9 @@ BEGIN
         reset <= '1';
         wait for clk_period*2;
         reset <= '0';
-        wait for clk_period*2;
 
         -- Run simulation for 20 cycles (ou mais se quiser)
-        for cycle in 0 to 3 loop
+        for cycle in 0 to 10 loop
             wait until rising_edge(clk);
             report "Cycle " & integer'image(cycle) & 
                    " | PC=" & to_hstring(pc_out) &

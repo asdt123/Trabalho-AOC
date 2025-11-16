@@ -20,15 +20,15 @@ architecture Behavioral of mips32 is
 
     -- Control signals
     signal reg_dst, mem_to_reg : std_logic_vector(1 downto 0);
-    signal alu_op               : std_logic_vector(1 downto 0);
-    signal jump, branch, mem_read, mem_write, alu_src, reg_write, sign_or_zero : std_logic;
+    signal alu_op, sign_or_zero: std_logic_vector(1 downto 0);
+    signal jump, branch, mem_read, mem_write, alu_src, reg_write : std_logic;
 
     -- Register file
     signal reg_write_dest, reg_read_addr_1, reg_read_addr_2 : std_logic_vector(4 downto 0);
     signal reg_write_data, reg_read_data_1, reg_read_data_2 : std_logic_vector(31 downto 0);
 
     -- Immediate
-    signal sign_ext_im, zero_ext_im, imm_ext : std_logic_vector(31 downto 0);
+    signal sign_ext_im, zero_ext_im, float_ext_im, imm_ext : std_logic_vector(31 downto 0);
 
     -- ALU
     signal ALU_Cont : std_logic_vector(5 downto 0);
@@ -93,7 +93,7 @@ begin
     ----------------------------------------------------------------
     reg_write_dest <= "11111" when reg_dst="10" else
                       instr(15 downto 11) when reg_dst="01" else
-                      instr(20 downto 16);
+                      instr(25 downto 21);
 
     reg_read_addr_1 <= instr(25 downto 21);
     reg_read_addr_2 <= instr(20 downto 16);
@@ -119,7 +119,10 @@ begin
     ----------------------------------------------------------------
     sign_ext_im <= (31 downto 16 => instr(15)) & instr(15 downto 0);  -- 16 bits de sinal + 16 bits imediato
     zero_ext_im <= (31 downto 16 => '0') & instr(15 downto 0);         -- 16 bits zeros + 16 bits imediato
-    imm_ext <= sign_ext_im when sign_or_zero='1' else zero_ext_im;
+    float_ext_im<= instr(15 downto 0) & x"0000";
+    imm_ext <= sign_ext_im when sign_or_zero="01" else 
+               float_ext_im when sign_or_zero="10" else
+               zero_ext_im;
 
     ----------------------------------------------------------------
     -- Funct

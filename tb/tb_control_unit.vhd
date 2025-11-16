@@ -24,6 +24,7 @@ architecture behavioral of tb_control_unit is
     );
   end component;
 
+  -- signals
   signal opcode        : std_logic_vector(5 downto 0) := (others => '0');
   signal reset         : std_logic := '1';
   signal reg_dst       : std_logic_vector(1 downto 0);
@@ -36,6 +37,16 @@ architecture behavioral of tb_control_unit is
   signal alu_src       : std_logic;
   signal reg_write     : std_logic;
   signal sign_or_zero  : std_logic;
+
+  -- Função: slv -> string
+  function slv_to_string(slv: std_logic_vector) return string is
+    variable s : string(1 to slv'length);
+  begin
+    for i in slv'range loop
+      s(i - slv'low + 1) := character'value(std_logic'image(slv(i)));
+    end loop;
+    return s;
+  end function;
 
 begin
 
@@ -56,37 +67,48 @@ begin
     );
 
   stim_proc: process
-    variable idx : integer;
-    function slv2string(slv: std_logic_vector) return string is
-      variable result : string(1 to slv'length);
+
+    procedure test_opcode(code: std_logic_vector(5 downto 0); name: string) is
     begin
-      for i in slv'range loop
-        result(i - slv'low + 1) := character'VALUE(std_logic'image(slv(i)));
-      end loop;
-      return result;
-    end function;
+      opcode <= code;
+      wait for 10 ns;
+
+      report "=== Testing " & name &
+             " | opcode=" & slv_to_string(code) &
+             " | reg_dst=" & slv_to_string(reg_dst) &
+             " | mem_to_reg=" & slv_to_string(mem_to_reg) &
+             " | alu_op=" & slv_to_string(alu_op) &
+             " | jump=" & std_logic'image(jump) &
+             " | branch=" & std_logic'image(branch) &
+             " | mem_read=" & std_logic'image(mem_read) &
+             " | mem_write=" & std_logic'image(mem_write) &
+             " | alu_src=" & std_logic'image(alu_src) &
+             " | reg_write=" & std_logic'image(reg_write) &
+             " | sign_or_zero=" & std_logic'image(sign_or_zero);
+    end procedure;
+
   begin
+
     reset <= '1';
     wait for 10 ns;
     reset <= '0';
     wait for 10 ns;
 
-    for idx in 0 to 7 loop
-      opcode <= std_logic_vector(to_unsigned(idx, 6));
-      wait for 10 ns;
+    test_opcode("000000", "R-type");
+    test_opcode("000001", "sliu");
+    test_opcode("000010", "j");
+    test_opcode("000011", "jal");
+    test_opcode("010011", "lw");
+    test_opcode("101011", "sw");
+    test_opcode("000100", "beq");
+    test_opcode("100000", "addi");
+    test_opcode("100001", "addfi");
+    test_opcode("100010", "subi");
+    test_opcode("100011", "subfi");
+    test_opcode("100100", "andi");
+    test_opcode("100101", "ori");
 
-      report "Opcode=" & integer'image(idx) &
-             " | reg_dst=" & slv2string(reg_dst) &
-             " mem_to_reg=" & slv2string(mem_to_reg) &
-             " alu_op=" & slv2string(alu_op) &
-             " jump=" & std_logic'image(jump) &
-             " branch=" & std_logic'image(branch) &
-             " mem_read=" & std_logic'image(mem_read) &
-             " mem_write=" & std_logic'image(mem_write) &
-             " alu_src=" & std_logic'image(alu_src) &
-             " reg_write=" & std_logic'image(reg_write) &
-             " sign_or_zero=" & std_logic'image(sign_or_zero);
-    end loop;
+    test_opcode("111111", "default");
 
     wait;
   end process;

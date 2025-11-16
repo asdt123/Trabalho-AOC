@@ -62,7 +62,7 @@ begin
 
       when "100011" =>  -- SUB float
         fadd_x   <= a;
-        fadd_y   <= not b(31) & b(30 downto 0);
+        fadd_y   <= b xor x"80000000";
         result  <= float_res;
 
       when "100100" =>  -- AND lógico
