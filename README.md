@@ -60,6 +60,24 @@ Este projeto implementa uma versão simplificada de um processador **MIPS de 32 
 * Alternativamente, pode ser executado online usando o **EDA Playground**
 
 ---
+## Tabela de instruções
+
+# Instruções Implementadas no Projeto MIPS32 (Versão Atual)
+
+| Instrução | Tipo | Opcode | Funct | Descrição |
+|----------|------|---------|--------|------------|
+| **add rd, rs, rt** | R | 000000 | 100000 | Soma inteira: rd = rs + rt |
+| **sub rd, rs, rt** | R | 000000 | 100010 | Subtração inteira: rd = rs – rt |
+| **addf rd, rs, rt** | R | 000000 | 110000 | Soma float32: rd = rs + rt |
+| **subf rd, rs, rt** | R | 000000 | 110010 | Subtração float32: rd = rs – rt |
+| **and rd, rs, rt** | R | 000000 | 100100 | AND bit a bit |
+| **or rd, rs, rt** | R | 000000 | 100101 | OR bit a bit |
+| **addi rt, rs, imm** | I | 001000 | — | Soma imediata inteira: rt = rs + imm |
+| **subi rt, rs, imm** | I | 001001 | — | Subtração imediata inteira: rt = rs – imm |
+| **addfi rt, rs, immf** | I | 001010 | — | Soma float immediate: rt = rs + imm_float |
+| **subfi rt, rs, immf** | I | 001011 | — | Subtração float immediate: rt = rs – imm_float |
+| **andi rt, rs, imm** | I | 100100 | — | AND imediato (zero extend) |
+| **ori rt, rs, imm** | I | 100101 | — | OR imediato (zero extend) |
 
 ## ▶️ Como Executar no EDA Playground
 
