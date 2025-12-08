@@ -13,6 +13,7 @@ MEMORY = $(SRC)/memory.vhd
 ALU    = $(SRC)/alu.vhd
 C_ALU  = $(SRC)/control_alu.vhd
 C_UNIT = $(SRC)/control_unit.vhd
+PIPELINE = $(SRC)/pipeline_reg.vhd
 REGS 	 = $(SRC)/register.vhd
 INST 	 = $(SRC)/instruction_memory.vhd
 CPU    = $(SRC)/mips32.vhd
@@ -69,7 +70,7 @@ alu: $(MYFADD) $(ALU) $(TB_ALU)
 	@echo "Compilando ALU..."
 	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(TB_ALU)
 	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU)
-	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
+	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit --backtrace $(EXE_ALU) --vcd=$(SIM)/alu.vcd --stop-time=500ns
 	@echo "Simulação ALU concluída, arquivo VCD: $(SIM)/alu.vcd"
 
 # -----------------------------
@@ -113,9 +114,9 @@ instruction: $(INST) $(TB_INST)
 # -----------------------------
 # Testbench CPU
 # -----------------------------
-cpu: $(MYFADD) $(ALU) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(CPU) $(TB_CPU)
+cpu: $(MYFADD) $(ALU) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(PIPELINE) $(CPU) $(TB_CPU)
 	@echo "Compilando CPU..."
-	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(CPU) $(TB_CPU)
+	ghdl -a --std=08 --ieee=standard --ieee=synopsys -fexplicit $(MYFADD) $(ALU) $(PIPELINE) $(INST) $(REGS) $(C_UNIT) $(C_ALU) $(MEMORY) $(CPU) $(TB_CPU)
 	ghdl -e --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_CPU)
 	ghdl -r --std=08 --ieee=standard --ieee=synopsys -fexplicit $(EXE_CPU) --vcd=$(SIM)/cpu.vcd --stop-time=500ns
 	@echo "Simulação CPU concluída, arquivo VCD: $(SIM)/cpu.vcd"
