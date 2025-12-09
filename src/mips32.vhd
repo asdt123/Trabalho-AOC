@@ -119,41 +119,48 @@ architecture Behavioral of mips32 is
 
     signal ForwardA, ForwardB : std_logic_vector(1 downto 0);
     signal alu_src_a_mux, alu_src_b_mux : std_logic_vector(31 downto 0);
+    -- Sinais
+    signal stall_from_cache : std_logic; -- Novo sinal
+    signal instruction_wire : std_logic_vector(31 downto 0);
 
 begin
 
-    -- ----------------------------------------------------------------
-    -- 1. IF STAGE (Instruction Fetch)
-    -- ----------------------------------------------------------------
-    -- Logica do PC (Next PC logic simplificada - Branch decision vem do MEM stage neste exemplo clássico)
-    pc_src_MEM <= EX_MEM_m_branch and EX_MEM_zero;
+    -- Instância da CACHE (Substitui a IMEM antiga)
+    icache: entity work.Instruction_Cache
+        port map (
+            clk => clk,
+            reset => reset,
+            pc => pc_current,
+            instruction => instruction_wire,
+            cpu_stall => stall_from_cache -- Conecta o sinal de stall
+        );
     
+    instr_IF <= instruction_wire; -- Conecta a saída da cache
+
+    -- ----------------------------------------------------------------
+    -- PC (Congela se stall_from_cache = '1')
+    -- ----------------------------------------------------------------
     process(clk, reset)
     begin
         if reset='1' then
             pc_current <= (others => '0');
         elsif rising_edge(clk) then
-            -- Se tiver branch (tomado no estagio MEM), atualiza PC para o alvo
-            if pc_src_MEM = '1' then
-                pc_current <= EX_MEM_branch_target;
+            if stall_from_cache = '1' then
+                -- STALL: Não faz nada (mantém o valor atual)
+                pc_current <= pc_current; 
             else
-                pc_current <= pc_plus4_IF; -- Normal PC+4
+                -- Normal operation
+                if pc_src_MEM = '1' then
+                    pc_current <= EX_MEM_branch_target;
+                else
+                    pc_current <= pc_plus4_IF;
+                end if;
             end if;
-            -- Nota: Jumps não implementados completamente aqui para brevidade, lógica similar
         end if;
     end process;
 
-    pc_plus4_IF <= std_logic_vector(unsigned(pc_current) + 4);
-
-    imem: entity work.Instruction_Memory
-        port map (
-            clk => clk,
-            pc => pc_current,
-            instruction => instr_IF
-        );
-
     -- ----------------------------------------------------------------
-    -- REGISTRADOR IF / ID
+    -- REGISTRADOR IF / ID (Congela se stall_from_cache = '1')
     -- ----------------------------------------------------------------
     process(clk, reset)
     begin
@@ -161,16 +168,20 @@ begin
             IF_ID_instr <= (others => '0');
             IF_ID_pc_plus4 <= (others => '0');
         elsif rising_edge(clk) then
-            -- Se Branch for tomado, deve-se fazer FLUSH aqui (IF_ID <= 0)
-            if pc_src_MEM = '1' then
-                IF_ID_instr <= (others => '0');
+            if stall_from_cache = '1' then
+                 -- STALL: Não atualiza o registrador pipeline!
+                 -- Mantém os dados antigos para quando o stall acabar
             else
-                IF_ID_instr <= instr_IF;
-                IF_ID_pc_plus4 <= pc_plus4_IF;
+                 -- Normal operation
+                 if pc_src_MEM = '1' then
+                     IF_ID_instr <= (others => '0'); -- Flush do Branch tem prioridade
+                 else
+                     IF_ID_instr <= instr_IF;
+                     IF_ID_pc_plus4 <= pc_plus4_IF;
+                 end if;
             end if;
         end if;
     end process;
-
     -- ----------------------------------------------------------------
     -- 2. ID STAGE (Decode)
     -- ----------------------------------------------------------------

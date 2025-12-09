@@ -35,22 +35,36 @@ begin
 
     -- Processo de Leitura (Assíncrono com "Internal Forwarding")
     -- Se o endereço de leitura for igual ao de escrita ATUAL, já repassa o dado direto!
+    -- Processo de Leitura (Com proteção contra 'X' para limpar o log)
     process(all) 
     begin
-        -- Leitura Porta 1
-        if (reg_read_addr_1 = "00000") then
+        -- ================= PORTA 1 =================
+        if is_x(reg_read_addr_1) then 
+            reg_read_data_1 <= (others => '0'); -- Se endereço for X/U, retorna 0 (Silencia warning)
+        elsif reg_read_addr_1 = "00000" then
             reg_read_data_1 <= (others => '0');
         elsif (reg_write_en = '1' and reg_write_dest = reg_read_addr_1) then
-            reg_read_data_1 <= reg_write_data; -- BYPASS: Entrega o dado que está sendo escrito agora
+            -- Verifica se o destino de escrita também é válido
+            if is_x(reg_write_dest) then
+                 reg_read_data_1 <= (others => '0');
+            else
+                 reg_read_data_1 <= reg_write_data; -- INTERNAL FORWARDING
+            end if;
         else
             reg_read_data_1 <= reg_array(to_integer(unsigned(reg_read_addr_1)));
         end if;
 
-        -- Leitura Porta 2
-        if (reg_read_addr_2 = "00000") then
+        -- ================= PORTA 2 =================
+        if is_x(reg_read_addr_2) then 
+            reg_read_data_2 <= (others => '0');
+        elsif reg_read_addr_2 = "00000" then
             reg_read_data_2 <= (others => '0');
         elsif (reg_write_en = '1' and reg_write_dest = reg_read_addr_2) then
-            reg_read_data_2 <= reg_write_data; -- BYPASS
+            if is_x(reg_write_dest) then
+                 reg_read_data_2 <= (others => '0');
+            else
+                 reg_read_data_2 <= reg_write_data; -- INTERNAL FORWARDING
+            end if;
         else
             reg_read_data_2 <= reg_array(to_integer(unsigned(reg_read_addr_2)));
         end if;
