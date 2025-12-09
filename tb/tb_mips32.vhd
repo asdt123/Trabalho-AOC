@@ -7,6 +7,7 @@ END tb_mips32;
 
 ARCHITECTURE behavior OF tb_mips32 IS 
 
+    -- Component Declaration for the 32-bit MIPS Processor
     COMPONENT mips32
         PORT(
             clk        : IN  std_logic;
@@ -16,30 +17,30 @@ ARCHITECTURE behavior OF tb_mips32 IS
         );
     END COMPONENT;
 
-    -- Signals
+    -- Inputs
     signal clk        : std_logic := '0';
     signal reset      : std_logic := '0';
 
+    -- Outputs
     signal pc_out     : std_logic_vector(31 downto 0);
     signal alu_result : std_logic_vector(31 downto 0);
 
+    -- Clock period
     constant clk_period : time := 10 ns;
 
 BEGIN
 
-    ----------------------------------------------------------------
-    -- DUT (Device Under Test)
-    ----------------------------------------------------------------
+    -- Instantiate the 32-bit MIPS Processor
     uut: mips32
         PORT MAP (
-            clk        => clk,
-            reset      => reset,
-            pc_out     => pc_out,
+            clk => clk,
+            reset => reset,
+            pc_out => pc_out,
             alu_result => alu_result
         );
 
     ----------------------------------------------------------------
-    -- Clock generator
+    -- Clock process
     ----------------------------------------------------------------
     clk_process : process
     begin
@@ -52,25 +53,25 @@ BEGIN
     end process;
 
     ----------------------------------------------------------------
-    -- Stimulus
+    -- Stimulus process
     ----------------------------------------------------------------
     stim_proc: process
         variable cycle : integer := 0;
     begin
+        -- Apply reset
         reset <= '1';
         wait for clk_period*2;
         reset <= '0';
 
-        -- roda somente até o fim real do programa
-        for cycle in 0 to 14 loop
+        -- Run simulation for 20 cycles (ou mais se quiser)
+        for cycle in 0 to 16 loop
             wait until rising_edge(clk);
-            report "Cycle " & integer'image(cycle) &
-                " | PC=" & to_hstring(pc_out) &
-                " | ALU=" & to_hstring(alu_result);
+            report "Cycle " & integer'image(cycle) & 
+                   " | PC=" & to_hstring(pc_out) &
+                   " | ALU=" & to_hstring(alu_result);
         end loop;
 
-        assert false report "Simulation Finished" severity failure;
-        wait;
+        wait;  -- stop simulation
     end process;
 
 END ARCHITECTURE;
