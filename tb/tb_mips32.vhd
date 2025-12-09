@@ -64,7 +64,7 @@ BEGIN
         reset <= '0';
 
         -- Run simulation for 20 cycles (ou mais se quiser)
-        for cycle in 0 to 30 loop
+        for cycle in 0 to 60 loop
             wait until rising_edge(clk);
             report "Cycle " & integer'image(cycle) & 
                    " | PC=" & to_hstring(pc_out) &

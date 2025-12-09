@@ -1,6 +1,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use std.textio.all;
+use ieee.std_logic_textio.all;
 
 entity Instruction_Cache is
     port (
@@ -8,91 +10,117 @@ entity Instruction_Cache is
         reset       : in std_logic;
         pc          : in std_logic_vector(31 downto 0);
         instruction : out std_logic_vector(31 downto 0);
-        cpu_stall   : out std_logic -- Sinal para pausar o processador no Miss
+        cpu_stall   : out std_logic -- '1' = Pausa o processador
     );
 end entity;
 
 architecture Behavioral of Instruction_Cache is
 
-    -- Configuração da Cache: 64 Linhas (Blocks)
-    constant CACHE_LINES : integer := 64;
+    -- ========================================================================
+    -- CONFIGURAÇÃO DA CACHE (Mapeamento Direto)
+    -- ========================================================================
+    constant CACHE_LINES : integer := 64; 
+    -- PC[31..8] = Tag (24 bits) | PC[7..2] = Index (6 bits) | PC[1..0] = Offset
     
-    -- Tipos para guardar Tag e Valid Bit
-    type tag_array_type is array (0 to CACHE_LINES-1) of std_logic_vector(23 downto 0); -- Tag restante
+    type tag_array_type is array (0 to CACHE_LINES-1) of std_logic_vector(23 downto 0);
     type valid_array_type is array (0 to CACHE_LINES-1) of std_logic;
     type data_array_type is array (0 to CACHE_LINES-1) of std_logic_vector(31 downto 0);
 
-    signal tags   : tag_array_type;
+    signal tags   : tag_array_type := (others => (others => '0'));
     signal valid  : valid_array_type := (others => '0');
-    signal data   : data_array_type;
+    signal cache_data : data_array_type := (others => (others => '0'));
 
-    -- Simulação da Memória Principal (Lenta)
+    -- ========================================================================
+    -- SIMULAÇÃO DA RAM PRINCIPAL (Lenta e Gigante)
+    -- ========================================================================
     type ram_type is array (0 to 255) of std_logic_vector(31 downto 0);
-    constant MAIN_MEMORY : ram_type := (
-        0 => x"2001000F", -- addi $1, $0, 15
-        1 => x"20020003", -- addi $2, $0, 3
-        2 => x"00221820", -- add  $3, $1, $2
-        3 => x"00221822", -- sub  $3, $1, $2
-        others => x"00000000"
-    );
+    signal main_memory : ram_type := (others => (others => '0'));
 
-    -- Máquina de Estados para controlar o Miss Penalty
+    -- Estado da Máquina de Miss
     type state_type is (IDLE, MISS_WAIT);
     signal state : state_type := IDLE;
     signal wait_counter : integer range 0 to 10 := 0;
 
 begin
 
-    process(clk, reset, pc)
-        -- Decodificando o endereço (Mapeamento Direto)
-        -- Endereço: [TAG (24 bits)] [INDEX (6 bits)] [OFFSET (2 bits - ignorados)]
+    -- ========================================================================
+    -- 1. CARREGAMENTO DO ARQUIVO (Inicializa a RAM)
+    -- ========================================================================
+    load_memory: process
+        file f : text open read_mode is "tests/instruction.input";
+        variable line_v : line;
+        variable instr_v : std_logic_vector(31 downto 0);
+        variable addr : integer := 0;
+    begin
+        wait for 1 ns; -- Pequeno delay inicial
+        while not endfile(f) loop
+            readline(f, line_v);
+            hread(line_v, instr_v);
+            if addr <= 255 then
+                main_memory(addr) <= instr_v;
+                addr := addr + 1;
+            end if;
+        end loop;
+        report "CACHE: Memoria Principal carregada com sucesso via arquivo.";
+        wait;
+    end process;
+
+    -- ========================================================================
+    -- 2. LÓGICA DE CONTROLE DA CACHE
+    -- ========================================================================
+    process(clk, reset)
         variable index : integer;
         variable tag   : std_logic_vector(23 downto 0);
         variable word_addr : integer;
     begin
-        -- Converte PC para índice
-        -- "pc(7 downto 2)" pega 6 bits ignorando os 2 últimos (byte alignment)
-        index := to_integer(unsigned(pc(7 downto 2))); 
-        tag   := pc(31 downto 8);
-        word_addr := to_integer(unsigned(pc(31 downto 2)));
-
         if reset = '1' then
             state <= IDLE;
             valid <= (others => '0');
             cpu_stall <= '0';
-            wait_counter <= 0;
             instruction <= (others => '0');
         elsif rising_edge(clk) then
-            case state is
-                when IDLE =>
-                    -- Verifica se é HIT (Valid=1 e Tag bate)
-                    if valid(index) = '1' and tags(index) = tag then
-                        -- CACHE HIT!
-                        instruction <= data(index);
-                        cpu_stall <= '0';
-                    else
-                        -- CACHE MISS!
-                        cpu_stall <= '1'; -- Pausa o processador
-                        wait_counter <= 5; -- Penalidade de 5 ciclos (exemplo)
-                        state <= MISS_WAIT;
-                    end if;
+            
+            -- Proteção contra PC indefinido ('X')
+            if is_x(pc) then
+                cpu_stall <= '0';
+                instruction <= (others => '0');
+            else
+                -- Decodifica PC
+                index := to_integer(unsigned(pc(7 downto 2))); -- Bits para índice
+                tag   := pc(31 downto 8);                      -- Bits para Tag
+                word_addr := to_integer(unsigned(pc(31 downto 2))); -- Endereço linear
 
-                when MISS_WAIT =>
-                    cpu_stall <= '1'; -- Mantém pausado
-                    if wait_counter > 0 then
-                        wait_counter <= wait_counter - 1;
-                    else
-                        -- Fim da espera, busca da RAM principal
-                        if word_addr < 256 then
-                             data(index) <= MAIN_MEMORY(word_addr);
-                             tags(index) <= tag;
-                             valid(index) <= '1';
+                case state is
+                    when IDLE =>
+                        -- Verifica HIT: Valid=1 e Tag bate
+                        if valid(index) = '1' and tags(index) = tag then
+                            -- HIT!
+                            instruction <= cache_data(index);
+                            cpu_stall <= '0'; 
                         else
-                             data(index) <= (others => '0'); -- Fora da memória
+                            -- MISS!
+                            cpu_stall <= '1'; -- Pausa o pipeline
+                            wait_counter <= 4; -- Penalidade de 4 ciclos
+                            state <= MISS_WAIT;
                         end if;
-                        state <= IDLE; -- Volta para tentar ler de novo (agora vai dar Hit)
-                    end if;
-            end case;
+
+                    when MISS_WAIT =>
+                        cpu_stall <= '1'; -- Mantém pausado
+                        if wait_counter > 0 then
+                            wait_counter <= wait_counter - 1;
+                        else
+                            -- Fim da espera: Busca da RAM e salva na Cache
+                            if word_addr <= 255 then
+                                cache_data(index) <= main_memory(word_addr);
+                                tags(index) <= tag;
+                                valid(index) <= '1';
+                            else
+                                cache_data(index) <= (others => '0'); -- Fora da RAM
+                            end if;
+                            state <= IDLE; -- Volta para tentar ler de novo (agora vai dar Hit)
+                        end if;
+                end case;
+            end if;
         end if;
     end process;
 
